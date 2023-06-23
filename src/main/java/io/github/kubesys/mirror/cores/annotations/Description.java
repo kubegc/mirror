@@ -1,7 +1,7 @@
 /**
  * Copyrigt (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.annotations;
+package io.github.kubesys.mirror.cores.annotations;
 
 
 import java.lang.annotation.Documented;

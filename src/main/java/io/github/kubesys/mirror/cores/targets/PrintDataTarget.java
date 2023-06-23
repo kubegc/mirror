@@ -1,10 +1,10 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.targets;
+package io.github.kubesys.mirror.cores.targets;
 
-import cn.org.gitlink.mirror.cores.Target;
-import cn.org.gitlink.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.datas.KubeData;
 
 /**
  * @author   wuheng@iscas.ac.cn

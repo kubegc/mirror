@@ -1,11 +1,11 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.datas;
+package io.github.kubesys.mirror.cores.datas;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import cn.org.gitlink.mirror.cores.Data;
+import io.github.kubesys.mirror.cores.Data;
 
 /**
  * @author   wuheng@iscas.ac.cn

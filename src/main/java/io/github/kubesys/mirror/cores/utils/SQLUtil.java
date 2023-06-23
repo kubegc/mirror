@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.utils;
+package io.github.kubesys.mirror.cores.utils;
 
 /**
  * @author   wuheng@iscas.ac.cn

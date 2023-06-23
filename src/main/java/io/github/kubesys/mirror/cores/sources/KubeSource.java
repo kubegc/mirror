@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.sources;
+package io.github.kubesys.mirror.cores.sources;
 
 import java.net.MalformedURLException;
 import java.net.http.HttpConnectTimeoutException;
@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 
 import org.apache.hc.client5.http.HttpHostConnectException;
 
-import cn.org.gitlink.mirror.cores.Env;
-import cn.org.gitlink.mirror.cores.Source;
-import cn.org.gitlink.mirror.cores.Target;
-import cn.org.gitlink.mirror.cores.datas.KubeData;
-import cn.org.gitlink.mirror.cores.datas.KubeData.Meta;
-import cn.org.gitlink.mirror.cores.utils.ClientUtil;
 import io.github.kubesys.client.KubernetesClient;
+import io.github.kubesys.mirror.cores.Env;
+import io.github.kubesys.mirror.cores.Source;
+import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.utils.ClientUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

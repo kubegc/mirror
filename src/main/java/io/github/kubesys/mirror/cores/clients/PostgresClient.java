@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.clients;
+package io.github.kubesys.mirror.cores.clients;
 
 import java.util.logging.Logger;
 
@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import cn.org.gitlink.mirror.cores.Env;
+import io.github.kubesys.mirror.cores.Env;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 

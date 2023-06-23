@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.targets;
+package io.github.kubesys.mirror.cores.targets;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,12 +9,11 @@ import java.util.logging.Logger;
 
 import org.hibernate.exception.SQLGrammarException;
 
-
-import cn.org.gitlink.mirror.cores.Env;
-import cn.org.gitlink.mirror.cores.Target;
-import cn.org.gitlink.mirror.cores.clients.PostgresClient;
-import cn.org.gitlink.mirror.cores.datas.KubeData;
-import cn.org.gitlink.mirror.cores.utils.SQLUtil;
+import io.github.kubesys.mirror.cores.Env;
+import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.clients.PostgresClient;
+import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

@@ -1,20 +1,20 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.sources;
+package io.github.kubesys.mirror.cores.sources;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import cn.org.gitlink.mirror.cores.Target;
-import cn.org.gitlink.mirror.cores.datas.KubeData;
-import cn.org.gitlink.mirror.cores.datas.KubeData.Meta;
-import cn.org.gitlink.mirror.cores.utils.KubeUtil;
 import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.client.KubernetesConstants;
 import io.github.kubesys.client.KubernetesWatcher;
+import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

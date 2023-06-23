@@ -1,14 +1,14 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror;
+package io.github.kubesys.mirror;
 
-import cn.org.gitlink.mirror.cores.Target;
-import cn.org.gitlink.mirror.cores.datas.KubeData;
-import cn.org.gitlink.mirror.cores.sources.KubeSource;
-import cn.org.gitlink.mirror.cores.sources.KubeSourceExtractor;
-import cn.org.gitlink.mirror.cores.targets.PostgresDataTarget;
-import cn.org.gitlink.mirror.cores.targets.PostgresMetaTarget;
+import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.sources.KubeSource;
+import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
+import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
+import io.github.kubesys.mirror.cores.targets.PostgresMetaTarget;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -29,7 +29,6 @@ public class Server {
 		Target<KubeData> dataTarget = new PostgresDataTarget();
 		KubeSource source = new KubeSourceExtractor(metaTarget, dataTarget);
 		source.startCollect();
-//		source.startCollect("Pod", source.getKubeClient().getKindDesc().get("Pod"));
 	}
 
 }

@@ -1,1 +1,72 @@
-# mirror
+# Kubernetes-mirror
+
+We intend to store all Kubernetes data in a relational database (e.g., Postgres):
+
+- **Flexibility**. It can support all Kubernetes-based systems without extra development, such as [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift), [istio](https://istio.io/), etc.
+- **Usability**. Developers can query what they needs using SQL.
+
+This project is based on the following softwares.
+
+|               NAME            |   Website                       |      LICENSE              | 
+|-------------------------------|---------------------------------|---------------------------|
+|     client-java               |  https://github.com/kubesys/client-java          |  Apache License 2.0 |
+|     hibernate-core            |  https://github.com/hibernate                    |  Apache License 2.0 |
+|     postgresql                |  https://www.postgresql.org/                     |  Apache License 2.0 |
+      
+
+## Architecture
+
+ 
+## Installation
+
+1. deploy Postgres
+
+see [install](https://github.com/kubesys/installer)
+
+```shell
+bash kubeinst init-addon postgres
+```
+
+go to http://IP:30307, and the parameters are:
+
+|      Key            |   Value                       |  
+|---------------------|-------------------------------|
+|     System          |   Postgres                   | 
+|     Server          |   127.0.0.1:5432 or IP:30306   | 
+|     Username        |   postgres                   | 
+|     Password        |   onceas                     |
+
+Login and create a database 'kubestack'
+
+2. deploy Mirror
+
+```shell
+bash kubeinst init-stack mirror
+```
+
+### Maven users
+
+Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>io.github.kubesys</groupId>
+  <artifactId>mirror</artifactId>
+  <version>0.1.0</version> 
+</dependency>
+
+<repositories>
+   <repository>
+       <id>pdos-repos</id>
+       <name>PDOS Releases</name>
+       <url>http://139.9.165.93:31016/repository/maven-public/</url>
+    </repository>
+</repositories>
+```
+
+
+## Roadmap
+
+- 0.1.0：support postgres
+- 0.2.0：support rabbitmq
+- 0.3.0: Catch all exceptions.

@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.models;
+package io.github.kubesys.mirror.cores.models;
 
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import org.hibernate.type.SqlTypes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import cn.org.gitlink.mirror.cores.annotations.Description;
+import io.github.kubesys.mirror.cores.annotations.Description;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,14 +1,14 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package cn.org.gitlink.mirror.cores.utils;
+package io.github.kubesys.mirror.cores.utils;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import cn.org.gitlink.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn
