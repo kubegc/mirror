@@ -29,6 +29,7 @@ public class Server {
 		Target<KubeData> dataTarget = new PostgresDataTarget();
 		KubeSource source = new KubeSourceExtractor(metaTarget, dataTarget);
 		source.startCollect();
+//		System.out.println(source.getKubeClient().getKindDesc());
+//		source.startCollect("coordination.k8s.io.Lease", source.getKubeClient().getKindDesc().get("coordination.k8s.io.Lease"));
 	}
-
 }

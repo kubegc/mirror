@@ -3,15 +3,11 @@
  */
 package io.github.kubesys.mirror.cores.sources;
 
-import java.net.MalformedURLException;
-import java.net.http.HttpConnectTimeoutException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.apache.hc.client5.http.HttpHostConnectException;
 
 import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.mirror.cores.Env;
@@ -68,18 +64,18 @@ public abstract class KubeSource extends Source<KubeData> {
 	 * @throws Exception 无法连接Kubernetes
 	 */
 	private static KubernetesClient initKubeClient() {
-		try {
-			return new KubernetesClient(
-					System.getenv(Env.ENV_KUBE_URL), 
-					System.getenv(Env.ENV_KUBE_TOKEN));
-		} catch (NullPointerException ex) {
-			m_logger.severe("缺少环境变量'" + Env.ENV_KUBE_URL + "'或者'" + Env.ENV_KUBE_TOKEN + "':" + ex);
-		} catch (MalformedURLException | HttpHostConnectException | HttpConnectTimeoutException ex) {
-			m_logger.severe(VALID_KUBE_URL_PATTERN + ":" + ex);
-		} catch (Exception ex) {
-			m_logger.severe(VALID_KUBE_TOKEN_PATTERN  + ":" + ex);
-		}
-		return null;
+//		try {
+		return new KubernetesClient(
+				System.getenv(Env.ENV_KUBE_URL), 
+				System.getenv(Env.ENV_KUBE_TOKEN));
+//		} catch (NullPointerException ex) {
+//			m_logger.severe("缺少环境变量'" + Env.ENV_KUBE_URL + "'或者'" + Env.ENV_KUBE_TOKEN + "':" + ex);
+//		} catch (MalformedURLException | HttpHostConnectException | HttpConnectTimeoutException ex) {
+//			m_logger.severe(VALID_KUBE_URL_PATTERN + ":" + ex);
+//		} catch (Exception ex) {
+//			m_logger.severe(VALID_KUBE_TOKEN_PATTERN  + ":" + ex);
+//		}
+//		return null;
 	}
 
 	/**

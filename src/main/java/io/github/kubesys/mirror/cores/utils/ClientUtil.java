@@ -6,7 +6,7 @@ package io.github.kubesys.mirror.cores.utils;
 /**
  * @author   wuheng@iscas.ac.cn
  * @version  0.0.1
- * @since    2023/06/1918
+ * @since    2023/06/23
  *
  */
 public class ClientUtil {

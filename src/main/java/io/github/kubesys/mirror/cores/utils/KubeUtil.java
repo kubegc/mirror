@@ -13,7 +13,7 @@ import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
 /**
  * @author   wuheng@iscas.ac.cn
  * @version  0.0.1
- * @since    2023/06/1918
+ * @since    2023/06/23
  *
  */
 public class KubeUtil {
@@ -49,6 +49,7 @@ public class KubeUtil {
 		return idx == -1 ? "" : apiVersion.substring(0, idx);
 	}
 	
+	
 	/**
 	 * @param json   json
 	 * @return      获得kubernetes的name
@@ -68,12 +69,22 @@ public class KubeUtil {
 		return "default";
 	}
 	
+	
 	/**
 	 * @param json   json
 	 * @return      获得kubernetes的namespace
 	 */
 	public static String getGroup(JsonNode json) {
 		return toGroup(json.get("apiVersion").asText());
+	}
+	
+	/**
+	 * @param fullkind   fullkind
+	 * @return      获得kubernetes的namespace
+	 */
+	public static String getGroup(String fullkind) {
+		int idx = fullkind.lastIndexOf(".");
+		return idx == -1 ? "" : fullkind.substring(0, idx);
 	}
 	
 	/**

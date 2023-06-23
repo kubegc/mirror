@@ -102,7 +102,7 @@ public class KubeSourceExtractor extends KubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_ADDED, 
 						new KubeData(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e);
+				m_logger.warning("未知错误：" + e + ":" + node.toPrettyString());
 			}
 		}
 
@@ -112,7 +112,7 @@ public class KubeSourceExtractor extends KubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_MODIFIED, 
 						new KubeData(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e);
+				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
 			}
 		}
 
@@ -122,7 +122,7 @@ public class KubeSourceExtractor extends KubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_DELETED, 
 						new KubeData(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e);
+				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
 			}
 		}
 

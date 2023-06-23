@@ -3,14 +3,21 @@
  */
 package io.github.kubesys.mirror.cores.clients;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.github.kubesys.mirror.cores.Env;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 
 /**
@@ -95,20 +102,110 @@ public class PostgresClient   {
 	 * @return           查询结果
 	 */
 	public Object execWithSingleResult(String sql) {
-		entityManager.getTransaction().begin();
-		Query query = entityManager.createNativeQuery(sql);
-		Object singleResult = query.getSingleResult();
-		entityManager.getTransaction().commit();
-		return singleResult;
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			Query query = entityManager.createNativeQuery(sql);
+			Object singleResult = query.getSingleResult();
+			transaction.commit();
+			return singleResult;
+		} catch (NoResultException ex) {
+			m_logger.warning("没有查询到任何结果");
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param sql        SQL
+	 * @return           查询结果
+	 */
+	public long count(String sql) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			Query query = entityManager.createNativeQuery(sql);
+			long singleResult = (long) query.getSingleResult();
+			transaction.commit();
+			return singleResult;
+		} catch (NoResultException ex) {
+			m_logger.warning("没有查询到任何结果");
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * @param sql        SQL
+	 * @return           查询结果
+	 */
+	public JsonNode get(String sql) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			Query query = entityManager.createNativeQuery(sql);
+			Object singleResult = query.getSingleResult();
+			transaction.commit();
+			return new ObjectMapper().readTree(singleResult.toString());
+		} catch (JsonProcessingException e) {
+			m_logger.warning("结果转JSON失败" + e);
+		} catch (NoResultException ex) {
+			m_logger.warning("没有查询到任何结果" + ex);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * @param sql        SQL
+	 * @return           查询结果
+	 */
+	public JsonNode list(String sql) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			Query query = entityManager.createNativeQuery(sql);
+			List<?> mutipleResults = query.getResultList();
+			transaction.commit();
+			return new ObjectMapper().readTree(mutipleResults.toString());
+		} catch (JsonProcessingException e) {
+			m_logger.warning("结果转JSON失败" + e);
+		} catch (NoResultException ex) {
+			m_logger.warning("没有查询到任何结果" + ex);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return null;
 	}
 	
 	/**
 	 * @param sql        SQL
 	 */
 	public void execWithoutResult(String sql) {
-		entityManager.getTransaction().begin();
-		entityManager.createNativeQuery(sql).executeUpdate();
-		entityManager.getTransaction().commit();
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			entityManager.createNativeQuery(sql).executeUpdate();
+			transaction.commit();
+		} catch (Exception ex) {
+			m_logger.warning("未知错误" + ex);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
 	}
 	
 	

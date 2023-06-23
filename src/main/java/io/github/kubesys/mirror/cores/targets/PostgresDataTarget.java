@@ -77,7 +77,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 			transaction.commit();
 			m_logger.info("完成对象插入：" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法插入对象" + ex);
+			m_logger.warning("无法插入对象" + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
@@ -104,7 +104,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 			transaction.commit();
 			m_logger.info("完成对象更新：" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法更新对象" + ex);
+			m_logger.warning("无法更新对象" + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
@@ -129,7 +129,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 			transaction.commit();
 			m_logger.info("完成对象删除：" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法删除对象" + ex);
+			m_logger.warning("无法删除对象" + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
