@@ -36,7 +36,7 @@ public class SQLUtil {
 		StringBuilder sb = new StringBuilder();
 		sb.append("data");
 		
-		String parts[] = value.split("##");
+		String[] parts = value.split("##");
 		for (int i = 0; i < parts.length - 1; i++) {
 			sb.append(" -> '").append(parts[i]).append("'");
 		}
