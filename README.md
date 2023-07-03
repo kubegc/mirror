@@ -40,8 +40,10 @@ Login and create a database 'kubestack'
 
 2. deploy Mirror
 
+replace yamls/kube-mirror.yaml variables
+
 ```shell
-bash kubeinst init-stack mirror
+kubectl apply -f yamls/kube-mirror.yaml
 ```
 
 ### Maven users
@@ -67,6 +69,6 @@ Add this dependency to your project's POM:
 
 ## Roadmap
 
-- 0.1.0：support postgres
-- 0.2.0：support rabbitmq
-- 0.3.0: Catch all exceptions.
+- 0.1.x：support postgres
+- 0.2.x：support rabbitmq
+- 0.3.x: Catch all exceptions.
