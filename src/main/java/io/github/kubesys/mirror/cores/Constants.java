@@ -5,12 +5,16 @@ package io.github.kubesys.mirror.cores;
 
 /**
  * @author   wuheng@iscas.ac.cn
- * @version  0.0.1
- * @since    2023/06/18
+ * @version  0.1.1
+ * @since    2023/07/17
  *
  */
-public interface Constants {
+public final class Constants {
 	
+	private Constants() {
+		super();
+	}
+
 	public static final String KUBE_APIVERSION          = "apiVersion";
 	
 	public static final String KUBE_APIVERSION_SPLIT    = "/";

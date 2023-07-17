@@ -9,8 +9,12 @@ package io.github.kubesys.mirror.cores;
  * @since    2023/06/17
  *
  */
-public interface Env {
+public final class Env {
 	
+	private Env() {
+		super();
+	}
+
 	/**
 	 * JDBC的Url地址
 	 */
