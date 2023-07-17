@@ -92,7 +92,6 @@ public class KubeSourceExtractor extends KubeSource {
 			super(client);
 			this.fullKind = fullKind;
 			this.dataTarget = target;
-			System.out.println(fullKind);
 		}
 
 

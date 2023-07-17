@@ -16,6 +16,8 @@ import io.github.kubesys.mirror.cores.targets.PostgresMetaTarget;
  * @since    2023/06/17
  *
  * 本项目的主要作用是将Kubernetes的所有状态同步到Postgres数据库中
+ * 
+ * 具体文档见https://www.yuque.com/kubesys/backend/cbtrr8nshxowbgiy
  */
 public class Server {
 	
@@ -29,7 +31,5 @@ public class Server {
 		Target<KubeData> dataTarget = new PostgresDataTarget();
 		KubeSource source = new KubeSourceExtractor(metaTarget, dataTarget);
 		source.startCollect();
-//		System.out.println(source.getKubeClient().getKindDesc());
-//		source.startCollect("coordination.k8s.io.Lease", source.getKubeClient().getKindDesc().get("coordination.k8s.io.Lease"));
 	}
 }

@@ -2,6 +2,8 @@
 
 We intend to store all Kubernetes data in a relational database (e.g., Postgres):
 
+This code is based on JDK 17 and Maven 3.8.3
+
 - **Flexibility**. It can support all Kubernetes-based systems without extra development, such as [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift), [istio](https://istio.io/), etc.
 - **Usability**. Developers can query what they needs using SQL.
 
@@ -16,7 +18,6 @@ This project is based on the following softwares.
 
 ## Architecture
 
- 
 ## Installation
 
 1. deploy Postgres
@@ -40,7 +41,25 @@ Login and create a database 'kubestack'
 
 2. deploy Mirror
 
-replace yamls/kube-mirror.yaml variables
+replace yamls/kube-mirror.yaml variables, for example 
+
+```
+        env:
+        - name: jdbcUrl
+          value: jdbc:postgresql://127.0.0.1:5432/kubestack
+        - name: jdbcUser
+          value: postgres
+        - name: jdbcPwd
+          value: onceas
+        - name: jdbcDriver
+          value: org.postgresql.Driver
+        - name: kubeUrl
+          value: https://127.0.0.1:6443
+        - name: kubeToken
+          value: see getToken in https://github.com/kubesys/client-java
+        - name: kubeRegion
+          value: test
+```
 
 ```shell
 kubectl apply -f yamls/kube-mirror.yaml
@@ -65,6 +84,7 @@ Add this dependency to your project's POM:
     </repository>
 </repositories>
 ```
+
 
 
 ## Roadmap
