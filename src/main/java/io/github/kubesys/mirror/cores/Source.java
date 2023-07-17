@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 public abstract class Source<T> {
 	
 	/**
-	 * 收集的数据发给谁
+	 * 数据来源是谁
 	 */
 	protected Target<T> metaTarget;
 	
 	/**
-	 * 收集的数据发给谁
+	 * 数据最终去处是哪
 	 */
 	protected Target<T> dataTarget;
 
@@ -37,14 +37,14 @@ public abstract class Source<T> {
 	}
 
 	/**
-	 * 开始收集数据
+	 * 开始收集全部数据
 	 */
 	public abstract void startCollect() throws Exception;
 	
 	/**
-	 * 开始收集数据
+	 * 开始收集指定数据
 	 * 
-	 * @param fullKind 只监测某一种类型 
+	 * @param fullKind 只监测某一种类型，见项目https://github.com/kubesys/client-java
 	 * @param json 对应kubeClient中getKindDesc
 	 */
 	public abstract void startCollect(String fullKind, JsonNode json) throws Exception;
