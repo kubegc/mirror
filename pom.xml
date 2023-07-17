@@ -12,6 +12,13 @@
 		<kubeclient.version>0.9.3</kubeclient.version>
 		<hibernate.version>6.2.5.Final</hibernate.version>
 		<postgresql.version>42.6.0</postgresql.version>
+		<maven.assembly.version>3.6.0</maven.assembly.version>
+		<maven.dependency.version>3.6.0</maven.dependency.version>
+		<maven.compiler.version>3.11.0</maven.compiler.version>
+		<maven.resources.version>3.3.1</maven.resources.version>
+		<maven.source.version>3.3.0</maven.source.version>
+		<maven.javadoc.version>3.5.0</maven.javadoc.version>
+		<maven.gpg.version>3.1.0</maven.gpg.version>
 	</properties>
 	<licenses>
 		<license>
@@ -50,7 +57,9 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -77,6 +86,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven.dependency.version}</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -96,16 +106,19 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.17</source>
+					<target>1.17</target>
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven.resources.version}</version>
 				<executions>
 					<execution>
 						<id>copy-confs</id>
@@ -131,8 +144,9 @@
 			</plugin>
 			<!--source -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>${maven.source.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -144,8 +158,9 @@
 			</plugin>
 			<!--javadoc -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>${maven.javadoc.version}</version>
 				<configuration>
 					<charset>UTF-8</charset>
 				</configuration>
@@ -169,7 +184,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.2.1</version>
+						<version>${maven.source.version}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -183,7 +198,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.9.1</version>
+						<version>${maven.javadoc.version}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -197,7 +212,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
+						<version>${maven.gpg.version}</version>
 						<executions>
 							<execution>
 								<phase>verify</phase>

@@ -49,7 +49,7 @@ public class KubeSourceExtractor extends KubeSource {
 	    }
 	    
 	    // 添加元数据描述信息
-		Meta kubeData = KubeUtil.toKubeData(fullkind, value);
+		Meta kubeData = KubeUtil.toKubeMeta(fullkind, value);
 		kindToMetaMapper.put(fullkind, kubeData);
 		metaTarget.doHandleAdded(new KubeData(kubeData, null));
 	    

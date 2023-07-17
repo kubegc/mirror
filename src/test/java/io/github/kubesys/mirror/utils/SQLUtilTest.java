@@ -18,6 +18,11 @@ import io.github.kubesys.mirror.cores.utils.SQLUtil;
 class SQLUtilTest {
 	
 	@Test
+	void testValidTable() {
+		assertEquals("abcdefghi", SQLUtil.table("abc-def/gh/i-"));
+	}
+	
+	@Test
 	void test1() {
 		assertEquals("data ->> 'apiVersion'", SQLUtil.jsonKey("apiVersion"));
 	}

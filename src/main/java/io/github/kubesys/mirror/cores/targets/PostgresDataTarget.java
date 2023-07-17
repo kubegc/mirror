@@ -72,7 +72,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 		        .setParameter(4, System.getenv(Env.ENV_KUBE_REGION))
 		        .setParameter(5, value.toPrettyString())
 		        .setParameter(6, KubeUtil.createdTime(value))
-		        .setParameter(7, KubeUtil.updatedTime(value))
+		        .setParameter(7, KubeUtil.updatedTime())
 		        .executeUpdate();
 			transaction.commit();
 			m_logger.info("完成对象插入：" + value.toPrettyString());
@@ -95,7 +95,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 			entityManager.createNativeQuery(UPDATE.replace(TABLE_NAME, 
 							SQLUtil.table(data.getMeta().getPlural())))
 				.setParameter(1, value.toPrettyString())
-				.setParameter(2, KubeUtil.updatedTime(value))
+				.setParameter(2, KubeUtil.updatedTime())
 		        .setParameter(3, KubeUtil.getName(value))
 		        .setParameter(4, KubeUtil.getNamespace(value))
 		        .setParameter(5, KubeUtil.getGroup(value))

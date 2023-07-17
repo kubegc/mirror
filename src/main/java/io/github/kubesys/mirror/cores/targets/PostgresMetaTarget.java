@@ -93,7 +93,7 @@ public class PostgresMetaTarget extends Target<KubeData> {
 
 	@Override
 	public void doHandleDeleted(KubeData data) throws Exception {
-		// 表不删除
+		// 已经创建的表不删除
 	}
 	
 	/**

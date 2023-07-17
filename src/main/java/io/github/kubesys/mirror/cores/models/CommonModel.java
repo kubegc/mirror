@@ -31,17 +31,17 @@ public class CommonModel   {
 
 	@Id
 	@Column(name = "name", length = 256)
-	//@Description(value = "Kubernetes的metadata.name，只能是小写字母、数字、连字符（-）或点号（.）组成，且以字母或数字开头")
+	//@Description(value = "在Kubernetes中，metadata.name的最大长度是253个字符，约束条件只能包含小写字母、数字、连字符（-）和句点（.），必须以字母或数字开头和结尾，连续的句点（.）和连字符（-）不允许出现在名称的开头或结尾，名称中的连字符（-）不允许相邻")
     private Long name;
 	
 	@Id
 	@Column(name = "namespace", length = 64)
-	//@Description(value = "Kubernetes的metadata.namespace,只能是小写字母、数字、连字符（-）组成，且以字母或数字开头")
+	//@Description(value = "在Kubernetes中，metadata.name的最大长度是63个字符，约束条件只能包含小写字母、数字、连字符（-）和句点（.），必须以字母或数字开头和结尾，连续的句点（.）和连字符（-）不允许出现在名称的开头或结尾，名称中的连字符（-）不允许相邻")
 	private String namespace;
 	
 	@Id
 	@Column(name = "apiGroup", length = 128)
-	//@Description(value = "Kubernetes的apiVersion除去'/'前面一段，只能是小写字母、数字、点号（.）组成，且以字母开头")
+	//@Description(value = "在Kubernetes中，metadata.name的最大长度是128个字符，约束条件只能包含小写字母、数字、连字符（-）和句点（.），必须以字母或数字开头和结尾，连续的句点（.）和连字符（-）不允许出现在名称的开头或结尾，名称中的连字符（-）不允许相邻")
 	private String apiGroup;
 	
 	@Id

@@ -15,7 +15,7 @@ import io.github.kubesys.mirror.cores.Source;
 import io.github.kubesys.mirror.cores.Target;
 import io.github.kubesys.mirror.cores.datas.KubeData;
 import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
-import io.github.kubesys.mirror.cores.utils.ClientUtil;
+import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -54,7 +54,7 @@ public abstract class KubeSource extends Source<KubeData> {
 		super(metaTarget, dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出
-		ClientUtil.checkNull(kubeClient);
+		KubeUtil.checkNull(kubeClient);
 	}
 
 	/**
@@ -64,18 +64,9 @@ public abstract class KubeSource extends Source<KubeData> {
 	 * @throws Exception 无法连接Kubernetes
 	 */
 	private static KubernetesClient initKubeClient() {
-//		try {
 		return new KubernetesClient(
 				System.getenv(Env.ENV_KUBE_URL), 
 				System.getenv(Env.ENV_KUBE_TOKEN));
-//		} catch (NullPointerException ex) {
-//			m_logger.severe("缺少环境变量'" + Env.ENV_KUBE_URL + "'或者'" + Env.ENV_KUBE_TOKEN + "':" + ex);
-//		} catch (MalformedURLException | HttpHostConnectException | HttpConnectTimeoutException ex) {
-//			m_logger.severe(VALID_KUBE_URL_PATTERN + ":" + ex);
-//		} catch (Exception ex) {
-//			m_logger.severe(VALID_KUBE_TOKEN_PATTERN  + ":" + ex);
-//		}
-//		return null;
 	}
 
 	/**

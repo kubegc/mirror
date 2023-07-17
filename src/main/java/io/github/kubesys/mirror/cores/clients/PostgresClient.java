@@ -25,8 +25,7 @@ import jakarta.persistence.Query;
  * @version  0.1.0
  * @since   2023/06/21
  * 
- * TODO 未来可以变成连接池
- * 面向企业基础设施管理，用户量不大
+ * 面向企业基础设施管理，用户量不大，未来支持连接池
  * 目前，为每一个Kubernetes的Kind分配一个客户端
  */
 public class PostgresClient   {
@@ -57,6 +56,7 @@ public class PostgresClient   {
 	static final String DEFAULT_JDBCDRIVER = "org.postgresql.Driver";
 	
 	/**
+	 * 
 	 * 默认数据库增删改查管理器
 	 */
 	protected EntityManager entityManager;
