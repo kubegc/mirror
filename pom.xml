@@ -9,7 +9,7 @@
 	<name>mirror</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<kubeclient.version>0.9.3</kubeclient.version>
+		<kubeclient.version>0.9.5</kubeclient.version>
 		<hibernate.version>6.2.5.Final</hibernate.version>
 		<postgresql.version>42.6.0</postgresql.version>
 		<maven.assembly.version>3.6.0</maven.assembly.version>
@@ -108,8 +108,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.version}</version>
 				<configuration>
-					<source>1.17</source>
-					<target>1.17</target>
+					<source>17</source>
+					<target>17</target>
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>

@@ -7,13 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
-import io.github.kubesys.mirror.cores.utils.SQLUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

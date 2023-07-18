@@ -92,7 +92,7 @@ public class PostgresClient   {
 	        Session session = sessionFactory.openSession();
 	        this.entityManager = session.getEntityManagerFactory().createEntityManager();
 		} catch (Exception ex) {
-			m_logger.severe("数据库连接参数错误，或者网络不好，无法实例化." + ex);
+			m_logger.severe("wrong database parameters，or unavailable network." + ex);
 			System.exit(1);
 		}
 	}

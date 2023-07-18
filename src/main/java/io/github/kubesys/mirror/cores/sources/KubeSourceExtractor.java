@@ -3,8 +3,11 @@
  */
 package io.github.kubesys.mirror.cores.sources;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -24,6 +27,17 @@ import io.github.kubesys.mirror.cores.utils.KubeUtil;
  */
 public class KubeSourceExtractor extends KubeSource {
 
+	/**
+	 * 已经监听的Kinds
+	 */
+	static final Set<String> collectedKinds = new HashSet<>();
+	
+	/**
+	 * fullKind与元数据描述映射关系
+	 * fullKind = group + "." + kind
+	 */
+	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
+	
 	public KubeSourceExtractor(Target<KubeData> metaTarget, Target<KubeData> dataTarget) {
 		super(metaTarget, dataTarget);
 	}
@@ -40,9 +54,8 @@ public class KubeSourceExtractor extends KubeSource {
 		    startCollect(fullkind, value);
 		}
 	}
-
-	@Override
-	public void startCollect(String fullkind, JsonNode value) throws Exception {
+	
+	private void startCollect(String fullkind, JsonNode value) throws Exception {
 		// 已经监测过了，不再监测
 	    if (collectedKinds.contains(fullkind)) {
 	    	return;
@@ -61,6 +74,13 @@ public class KubeSourceExtractor extends KubeSource {
 	    
 	    collectedKinds.add(fullkind);
 	}
+
+	@Override
+	public void startCollect(String fullkind, Meta meta) throws Exception {
+		//开始监听数据
+	    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
+	}
+	
 	
 	/**
 	 * @param value      目标KInd的元数据表述

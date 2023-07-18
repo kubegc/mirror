@@ -3,7 +3,7 @@
  */
 package io.github.kubesys.mirror.cores;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -30,7 +30,7 @@ public abstract class Source<T> {
 	 * @param metaTarget  元处理器，如创建表
 	 * @param dataTarget  目标处理器
 	 */
-	public Source(Target<T> metaTarget, Target<T> dataTarget) {
+	protected Source(Target<T> metaTarget, Target<T> dataTarget) {
 		super();
 		this.metaTarget = metaTarget;
 		this.dataTarget = dataTarget;
@@ -38,6 +38,8 @@ public abstract class Source<T> {
 
 	/**
 	 * 开始收集全部数据
+	 * 
+	 * @throws Exception Exception
 	 */
 	public abstract void startCollect() throws Exception;
 	
@@ -45,7 +47,9 @@ public abstract class Source<T> {
 	 * 开始收集指定数据
 	 * 
 	 * @param fullKind 只监测某一种类型，见项目https://github.com/kubesys/client-java
-	 * @param json 对应kubeClient中getKindDesc
+	 * @param meta 对应kubeClient中getKindDesc
+	 * 
+	 * @throws Exception Exception
 	 */
-	public abstract void startCollect(String fullKind, JsonNode json) throws Exception;
+	public abstract void startCollect(String fullKind, Meta meta) throws Exception;
 }

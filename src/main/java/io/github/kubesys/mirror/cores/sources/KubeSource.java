@@ -3,18 +3,11 @@
  */
 package io.github.kubesys.mirror.cores.sources;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-
 import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.mirror.cores.Env;
 import io.github.kubesys.mirror.cores.Source;
 import io.github.kubesys.mirror.cores.Target;
 import io.github.kubesys.mirror.cores.datas.KubeData;
-import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -25,21 +18,6 @@ import io.github.kubesys.mirror.cores.utils.KubeUtil;
  */
 public abstract class KubeSource extends Source<KubeData> {
 
-	static final Logger m_logger = Logger.getLogger(KubeSource.class.getName());
-	
-	static final String VALID_KUBE_URL_PATTERN   = "请检查参数kubeUrl符合格式https://IP:port，必须是https协议，且通常默认port是6443";
-	
-	static final String VALID_KUBE_TOKEN_PATTERN = "请检查参数kubeToken符合要求，参见https://github.com/kubesys/client-java中创建和获取TOoken";
-
-	/**
-	 * 已经监听的Kinds
-	 */
-	static final Set<String> collectedKinds = new HashSet<>();
-	
-	/**
-	 * fullKind与元数据描述映射关系
-	 */
-	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
 	
 	/**
 	 * Kubernetes的客户端
@@ -50,7 +28,7 @@ public abstract class KubeSource extends Source<KubeData> {
 	 * @param metaTarget          处理器，如创建数据库表
 	 * @param dataTarget          处理器，数据处理
 	 */
-	public KubeSource(Target<KubeData> metaTarget, Target<KubeData> dataTarget) {
+	KubeSource(Target<KubeData> metaTarget, Target<KubeData> dataTarget) {
 		super(metaTarget, dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出
