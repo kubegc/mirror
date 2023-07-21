@@ -12,6 +12,8 @@
 		<kubeclient.version>0.9.5</kubeclient.version>
 		<hibernate.version>6.2.5.Final</hibernate.version>
 		<postgresql.version>42.6.0</postgresql.version>
+		<amqp.version>5.18.0</amqp.version>
+		<junit.version>5.9.3</junit.version>
 		<maven.assembly.version>3.6.0</maven.assembly.version>
 		<maven.dependency.version>3.6.0</maven.dependency.version>
 		<maven.compiler.version>3.11.0</maven.compiler.version>
@@ -52,6 +54,19 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>${amqp.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

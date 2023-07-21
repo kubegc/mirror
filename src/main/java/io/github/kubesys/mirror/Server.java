@@ -9,6 +9,7 @@ import io.github.kubesys.mirror.cores.sources.KubeSource;
 import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
 import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
 import io.github.kubesys.mirror.cores.targets.PostgresMetaTarget;
+import io.github.kubesys.mirror.cores.targets.RabbitMQDataTarget;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -27,9 +28,11 @@ public class Server {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-		Target<KubeData> metaTarget = new PostgresMetaTarget();
-		Target<KubeData> dataTarget = new PostgresDataTarget();
-		KubeSource source = new KubeSourceExtractor(metaTarget, dataTarget);
+		Target<KubeData> tableTarget = new PostgresMetaTarget();
+		Target<KubeData> dbTarget    = new PostgresDataTarget();
+		Target<KubeData> msgTarget   = new RabbitMQDataTarget();
+		dbTarget.setNext(msgTarget);
+		KubeSource source = new KubeSourceExtractor(tableTarget, dbTarget);
 		source.startCollect();
 	}
 }

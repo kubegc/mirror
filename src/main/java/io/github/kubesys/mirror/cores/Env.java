@@ -56,4 +56,16 @@ public final class Env {
 	 */
 	//@Description(type = "环境变量", value = "Kubernetes集群标识")
 	public static final String ENV_KUBE_REGION           = "kubeRegion";
+	
+	//@Description(type = "环境变量", value = "Kubernetes集群标识")
+	public static final String ENV_MQ_URL                = "mqUrl";
+	
+	//@Description(type = "环境变量", value = "Kubernetes集群标识")
+	public static final String ENV_MQ_PORT               = "mqPort";
+	
+	//@Description(type = "环境变量", value = "Kubernetes集群标识")
+	public static final String ENV_MQ_USER               = "mqUser";
+	
+	//@Description(type = "环境变量", value = "Kubernetes集群标识")
+	public static final String ENV_MQ_PWD                = "mqPwd";
 }

@@ -92,3 +92,8 @@ Add this dependency to your project's POM:
 - 0.1.x：support postgres
 - 0.2.x：support rabbitmq
 - 0.3.x: Catch all exceptions.
+
+## Others
+
+- show max_connections
+- select count(1) from pg_stat_activity
