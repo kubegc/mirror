@@ -86,6 +86,7 @@ public class RabbitMQClient {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setHost(url);
 			factory.setPort(Integer.parseInt(port)); //
+			factory.setVirtualHost("/");
 			factory.setUsername(username);
 			factory.setPassword(password);
 			factory.setAutomaticRecoveryEnabled(true);
@@ -110,8 +111,8 @@ public class RabbitMQClient {
 				channels.put(queue, channel);
 			}
 
-//			channel.basicPublish("", queue, properties, data.getBytes());
 			channel.queueDeclare(queue, false, false, false, null);
+			channel.basicPublish("", queue, null, data.getBytes("UTF-8"));
 			m_logger.warning("send message successful," + data);
 		} catch (IOException e) {
 			m_logger.warning("unable to send message:" + e);

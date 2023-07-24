@@ -3,6 +3,8 @@
  */
 package io.github.kubesys.mirror;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.github.kubesys.mirror.cores.Target;
 import io.github.kubesys.mirror.cores.datas.KubeData;
 import io.github.kubesys.mirror.cores.sources.KubeSource;
@@ -10,6 +12,7 @@ import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
 import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
 import io.github.kubesys.mirror.cores.targets.PostgresMetaTarget;
 import io.github.kubesys.mirror.cores.targets.RabbitMQDataTarget;
+import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -33,6 +36,9 @@ public class Server {
 		Target<KubeData> msgTarget   = new RabbitMQDataTarget();
 		dbTarget.setNext(msgTarget);
 		KubeSource source = new KubeSourceExtractor(tableTarget, dbTarget);
-		source.startCollect();
+//		source.startCollect();
+		
+		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
+		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
 	}
 }

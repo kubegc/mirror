@@ -78,6 +78,7 @@ public class KubeSourceExtractor extends KubeSource {
 	@Override
 	public void startCollect(String fullkind, Meta meta) throws Exception {
 		//开始监听数据
+		kindToMetaMapper.put(fullkind, meta);
 	    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
 	}
 	
