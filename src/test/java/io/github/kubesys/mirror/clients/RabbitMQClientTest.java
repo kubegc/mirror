@@ -3,12 +3,15 @@
  */
 package io.github.kubesys.mirror.clients;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.io.IOException;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.impl.StandardMetricsCollector;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
 
 /**
  * @author wuheng@iscas.ac.cn
@@ -26,29 +29,53 @@ public class RabbitMQClientTest {
 	public static void main(String[] args) throws Exception {
 		// 创建连接工厂
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("139.9.165.93"); // RabbitMQ 服务器的主机地址
-		factory.setPort(30304); // RabbitMQ 服务器的端口号
-		factory.setVirtualHost("/");
-		factory.setUsername("root"); // RabbitMQ 的用户名
-		factory.setPassword("onceas"); // RabbitMQ 的密码
-		factory.setMetricsCollector(new StandardMetricsCollector());
+		factory.setUri("amqp://guest:guest@139.9.165.93:30304");
+		 // 创建连接
+        try (Connection connection = factory.newConnection()) {
+            // 创建通道
+            try (Channel channel = connection.createChannel()) {
+                // 声明队列
+                channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-		Connection connection = factory.newConnection();
-		Channel channel = connection.createChannel();
-		
-		channel.confirmSelect();
-		
-		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+                // 发送消息
+                String message = "Hello RabbitMQ!";
+                channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+                System.out.println(" [x] Sent '" + message + "'");
 
-		for (int i = 0; i < 100; i++) {
-			String message = "{\"oderId\":" + ThreadLocalRandom.current().nextInt(1000, 2000) + ", \"items\":[{\"id\":"
-					+ ThreadLocalRandom.current().nextInt(1000, 2000) + "},{\"id\":"
-					+ ThreadLocalRandom.current().nextInt(1, 10) + "}]}";
+                // 接收消息
+                Consumer consumer = new DefaultConsumer(channel) {
+                    @Override
+                    public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                        String message = new String(body, "UTF-8");
+                        System.out.println(" [x] Received '" + message + "'");
+                    }
+                };
+                
+                channel.basicConsume(QUEUE_NAME, true, consumer);
+            }
+        }
+//		factory.setHost("kube-message-5bb49878f6-27dk8");
+//		factory.setHost("139.9.165.93"); // RabbitMQ 服务器的主机地址
+//		factory.setPort(30304); // RabbitMQ 服务器的端口号
+//		factory.setVirtualHost("/");
+//		factory.setUsername("root"); // RabbitMQ 的用户名
+//		factory.setPassword("onceas"); // RabbitMQ 的密码
+//		factory.setMetricsCollector(new StandardMetricsCollector());
 
-			channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-			System.out.println("Produced: " + message);
-			Thread.sleep(3000);
-		}
+//		Connection connection = factory.newConnection();
+//		Channel channel = connection.createChannel();
+//		
+//		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+//
+//		for (int i = 0; i < 100; i++) {
+//			String message = "{\"oderId\":" + ThreadLocalRandom.current().nextInt(1000, 2000) + ", \"items\":[{\"id\":"
+//					+ ThreadLocalRandom.current().nextInt(1000, 2000) + "},{\"id\":"
+//					+ ThreadLocalRandom.current().nextInt(1, 10) + "}]}";
+//
+//			channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+//			System.out.println("Produced: " + message);
+//			Thread.sleep(3000);
+//		}
 
 //		channel.close();
 //		connection.close();

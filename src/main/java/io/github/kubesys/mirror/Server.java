@@ -36,9 +36,9 @@ public class Server {
 		Target<KubeData> msgTarget   = new RabbitMQDataTarget();
 		dbTarget.setNext(msgTarget);
 		KubeSource source = new KubeSourceExtractor(tableTarget, dbTarget);
-//		source.startCollect();
+		source.startCollect();
 		
-		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
-		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
+//		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
+//		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
 	}
 }
