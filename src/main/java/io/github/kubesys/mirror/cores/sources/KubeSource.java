@@ -27,8 +27,9 @@ public abstract class KubeSource extends Source<KubeData> {
 	/**
 	 * @param metaTarget          处理器，如创建数据库表
 	 * @param dataTarget          处理器，数据处理
+	 * @throws Exception 
 	 */
-	KubeSource(Target<KubeData> metaTarget, Target<KubeData> dataTarget) {
+	KubeSource(Target<KubeData> metaTarget, Target<KubeData> dataTarget) throws Exception {
 		super(metaTarget, dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出
@@ -41,7 +42,7 @@ public abstract class KubeSource extends Source<KubeData> {
 	 * @return Kubernetes客户端实例
 	 * @throws Exception 无法连接Kubernetes
 	 */
-	private static KubernetesClient initKubeClient() {
+	private static KubernetesClient initKubeClient() throws Exception {
 		return new KubernetesClient(
 				System.getenv(Env.ENV_KUBE_URL), 
 				System.getenv(Env.ENV_KUBE_TOKEN));

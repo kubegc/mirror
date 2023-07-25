@@ -38,7 +38,7 @@ public class KubeSourceExtractor extends KubeSource {
 	 */
 	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
 	
-	public KubeSourceExtractor(Target<KubeData> metaTarget, Target<KubeData> dataTarget) {
+	public KubeSourceExtractor(Target<KubeData> metaTarget, Target<KubeData> dataTarget) throws Exception {
 		super(metaTarget, dataTarget);
 	}
 

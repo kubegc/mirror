@@ -38,7 +38,12 @@ public class Server {
 		KubeSource source = new KubeSourceExtractor(tableTarget, dbTarget);
 		source.startCollect();
 		
-//		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
-//		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
+		// 调试的时候用
+//		debug(source);
+	}
+
+	static void debug(KubeSource source) throws Exception {
+		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
+		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
 	}
 }

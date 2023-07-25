@@ -91,9 +91,20 @@ Add this dependency to your project's POM:
 
 - 0.1.x：support postgres
 - 0.2.x：support rabbitmq
-- 0.3.x: Catch all exceptions.
+- 0.3.x：support 
 
 ## Others
 
 - show max_connections
 - select count(1) from pg_stat_activity
+
+## Applications
+
+- Pod <--> Workloads
+  - SELECT data -> 'metadata' ->> 'ownerReferences' AS value FROM pods
+
+- Pod <--> PVC
+- SELECT data -> 'spec' ->> 'volumes' AS value FROM pods
+
+- Pod <--> ConfigMap
+  - 
