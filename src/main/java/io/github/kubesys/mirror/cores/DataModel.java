@@ -9,6 +9,6 @@ package io.github.kubesys.mirror.cores;
  * @since    2023/06/18
  *
  */
-public interface Data {
+public interface DataModel {
 	
 }

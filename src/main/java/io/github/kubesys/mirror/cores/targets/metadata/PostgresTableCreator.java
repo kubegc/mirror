@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets;
+package io.github.kubesys.mirror.cores.targets.metadata;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,10 +9,9 @@ import java.util.logging.Logger;
 
 import org.hibernate.exception.SQLGrammarException;
 
-import io.github.kubesys.mirror.cores.Env;
-import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -23,12 +22,12 @@ import jakarta.persistence.EntityTransaction;
  * @since    2023/06/21
  *
  */
-public class PostgresMetaTarget extends Target<KubeData> {
+public class PostgresTableCreator {
 
 	/**
 	 * 日志
 	 */
-	static final Logger m_logger = Logger.getLogger(PostgresMetaTarget.class.getName());
+	static final Logger m_logger = Logger.getLogger(PostgresTableCreator.class.getName());
 	
 	/**
 	 * 创建表的SQL语法
@@ -79,23 +78,12 @@ public class PostgresMetaTarget extends Target<KubeData> {
 	 */
 	private static final PostgresClient pgClient = new PostgresClient();
 	
-	@Override
-	public synchronized void doHandleAdded(KubeData data) throws Exception {
+	public synchronized void createTableIfNeed(KubeDataModel data) throws Exception {
 		String table = SQLUtil.table(data.getMeta().getPlural());
 		createTableIfNeed(table);
 		deleteDataIfExist(table);
 	}
 
-	@Override
-	public void doHandleModified(KubeData data) throws Exception {
-		// 运行时不存在修改需改Table的操作
-	}
-
-	@Override
-	public void doHandleDeleted(KubeData data) throws Exception {
-		// 已经创建的表不删除
-	}
-	
 	/**
 	 * @param table 表名，对应plural
 	 */
@@ -144,10 +132,10 @@ public class PostgresMetaTarget extends Target<KubeData> {
 		try {
 			entityManager.createNativeQuery(DELETE_DATA.replace(TABLE_NAME, 
 							SQLUtil.table(table)))
-		        .setParameter(1, System.getenv(Env.ENV_KUBE_REGION))
+		        .setParameter(1, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("完成'" + table + "'中region为'" + System.getenv(Env.ENV_KUBE_REGION) + "'对象删除.");
+			m_logger.info("完成'" + table + "'中region为'" + System.getenv(Environment.ENV_KUBE_REGION) + "'对象删除.");
 		} catch (Exception ex) {
 			m_logger.warning("无法删除对象" + ex);
 			if (transaction.isActive()) {

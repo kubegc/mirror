@@ -9,7 +9,7 @@ import java.time.Instant;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.kubesys.mirror.cores.Constants;
-import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn

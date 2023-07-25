@@ -12,21 +12,30 @@ import io.github.kubesys.client.KubernetesConstants;
  *
  * 本项目的主要作用是确定谁如何处理数据
  */
-public abstract class Target<T> {
+public abstract class DataTarget<T> {
+	
+	/**
+	 * 元描述信息，可以为空
+	 * 比如对于Postgres，meta表示创建表
+	 * 对于RabbitMQ，meta表示创建队列
+	 */
+	protected DataTarget<T> meta;
 	
 	/**
 	 * 下一个目标处理器
 	 */
-	protected Target<T> next;
+	protected DataTarget<T> next;
+	
 	
 	/**
 	 * 设置下一个目标处理器
 	 * 
 	 * @param next        下一个目标处理器
 	 */
-	public void setNext(Target<T> next) {
+	public void setNext(DataTarget<T> next) {
 		this.next = next;
 	}
+	
 	
 	/**
 	 * 具体处理数据的逻辑

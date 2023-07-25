@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**

@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import io.github.kubesys.client.KubernetesConstants;
-import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.clients.RabbitMQClient;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.utils.SQLUtil;
 
 /**
@@ -20,7 +20,7 @@ import io.github.kubesys.mirror.cores.utils.SQLUtil;
  * @since    2023/07/21
  *
  */
-public class RabbitMQDataTarget extends Target<KubeData> {
+public class RabbitMQDataTarget extends DataTarget<KubeDataModel> {
 
 	/**
 	 * 日志
@@ -34,21 +34,21 @@ public class RabbitMQDataTarget extends Target<KubeData> {
 	private static final RabbitMQClient mqClient = new RabbitMQClient();
 	
 	@Override
-	public synchronized void doHandleAdded(KubeData data) throws Exception {
+	public synchronized void doHandleAdded(KubeDataModel data) throws Exception {
 		sendMsg(KubernetesConstants.JSON_TYPE_ADDED, data);
 	}
 
 	@Override
-	public void doHandleModified(KubeData data) throws Exception {
+	public void doHandleModified(KubeDataModel data) throws Exception {
 		sendMsg(KubernetesConstants.JSON_TYPE_MODIFIED, data);
 	}
 
 	@Override
-	public void doHandleDeleted(KubeData data) throws Exception {
+	public void doHandleDeleted(KubeDataModel data) throws Exception {
 		sendMsg(KubernetesConstants.JSON_TYPE_DELETED, data);
 	}
 	
-	private void sendMsg(String type, KubeData data) {
+	private void sendMsg(String type, KubeDataModel data) {
 		String queue = SQLUtil.table(data.getMeta().getPlural());
 		ObjectNode msg = new ObjectMapper().createObjectNode();
 		msg.put("type", type);

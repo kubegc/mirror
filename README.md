@@ -73,7 +73,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>io.github.kubesys</groupId>
   <artifactId>mirror</artifactId>
-  <version>0.1.0</version> 
+  <version>0.2.0</version> 
 </dependency>
 
 <repositories>
@@ -91,7 +91,7 @@ Add this dependency to your project's POM:
 
 - 0.1.x：support postgres
 - 0.2.x：support rabbitmq
-- 0.3.x：support 
+- 0.3.x：handle exceptions
 
 ## Others
 

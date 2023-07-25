@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.clients;
+package io.github.kubesys.mirror.cores.clients.builers;
 
 import java.util.HashMap;
 import java.util.Map;

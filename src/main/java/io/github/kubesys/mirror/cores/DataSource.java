@@ -3,7 +3,7 @@
  */
 package io.github.kubesys.mirror.cores;
 
-import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -12,27 +12,21 @@ import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
  *
  * 本项目的主要作用是确定数据源
  */
-public abstract class Source<T> {
+public abstract class DataSource<T> {
 	
-	/**
-	 * 数据来源是谁
-	 */
-	protected Target<T> metaTarget;
 	
 	/**
 	 * 数据最终去处是哪
 	 */
-	protected Target<T> dataTarget;
+	protected DataTarget<T> dataTarget;
 
 	/**
 	 * 设置目标处理器
 	 * 
-	 * @param metaTarget  元处理器，如创建表
 	 * @param dataTarget  目标处理器
 	 */
-	protected Source(Target<T> metaTarget, Target<T> dataTarget) {
+	protected DataSource(DataTarget<T> dataTarget) {
 		super();
-		this.metaTarget = metaTarget;
 		this.dataTarget = dataTarget;
 	}
 

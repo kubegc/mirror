@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.kubesys.mirror.cores.Env;
+import io.github.kubesys.mirror.cores.Environment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
@@ -65,10 +65,10 @@ public class PostgresClient   {
 	 * 
 	 */
 	public PostgresClient() {
-		this(getEnv(Env.ENV_JDBC_URL, DEFAULT_JDBCURL),
-				getEnv(Env.ENV_JDBC_USER, DEFAULT_USERNAME),
-				getEnv(Env.ENV_JDBC_PWD, DEFAULT_PASSWORD),
-				getEnv(Env.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER));
+		this(getEnv(Environment.ENV_JDBC_URL, DEFAULT_JDBCURL),
+				getEnv(Environment.ENV_JDBC_USER, DEFAULT_USERNAME),
+				getEnv(Environment.ENV_JDBC_PWD, DEFAULT_PASSWORD),
+				getEnv(Environment.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER));
 	}
 	
 	

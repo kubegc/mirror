@@ -3,8 +3,8 @@
  */
 package io.github.kubesys.mirror.cores.targets;
 
-import io.github.kubesys.mirror.cores.Target;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.DataTarget;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -12,20 +12,20 @@ import io.github.kubesys.mirror.cores.datas.KubeData;
  * @since    2023/06/18
  *
  */
-public class PrintDataTarget extends Target<KubeData> {
+public class PrintDataTarget extends DataTarget<KubeDataModel> {
 
 	@Override
-	public void doHandleAdded(KubeData data) throws Exception {
+	public void doHandleAdded(KubeDataModel data) throws Exception {
 		System.out.println("ADDED: " + data.getData().toPrettyString());
 	}
 
 	@Override
-	public void doHandleModified(KubeData data) throws Exception {
+	public void doHandleModified(KubeDataModel data) throws Exception {
 		System.out.println("MODIFIED: " + data.getData().toPrettyString());
 	}
 
 	@Override
-	public void doHandleDeleted(KubeData data) throws Exception {
+	public void doHandleDeleted(KubeDataModel data) throws Exception {
 		System.out.println("DELETED: " + data.getData().toPrettyString());
 	}
 

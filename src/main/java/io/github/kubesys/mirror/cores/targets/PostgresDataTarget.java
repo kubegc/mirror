@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.github.kubesys.mirror.cores.Env;
-import io.github.kubesys.mirror.cores.Target;
+import io.github.kubesys.mirror.cores.Environment;
+import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
+import io.github.kubesys.mirror.cores.targets.metadata.PostgresTableCreator;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
@@ -22,7 +23,7 @@ import jakarta.persistence.EntityTransaction;
  * @since    2023/06/21
  *
  */
-public class PostgresDataTarget extends Target<KubeData> {
+public class PostgresDataTarget extends DataTarget<KubeDataModel> {
 
 	/**
 	 * 日志
@@ -51,13 +52,22 @@ public class PostgresDataTarget extends Target<KubeData> {
 	 */
 	public static final String TABLE_NAME = "#NAME#";
 	
+	
+	/**
+	 * Table管理
+	 */
+	protected static final PostgresTableCreator ptc = new PostgresTableCreator();
+	
 	/**
 	 * PG的客户端
 	 */
 	private static final PostgresClient pgClient = new PostgresClient();
 	
 	@Override
-	public synchronized void doHandleAdded(KubeData data) throws Exception {
+	public synchronized void doHandleAdded(KubeDataModel data) throws Exception {
+		
+		ptc.createTableIfNeed(data);
+		
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -69,7 +79,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 		        .setParameter(1, KubeUtil.getName(value))
 		        .setParameter(2, KubeUtil.getNamespace(value))
 		        .setParameter(3, KubeUtil.getGroup(value))
-		        .setParameter(4, System.getenv(Env.ENV_KUBE_REGION))
+		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
 		        .setParameter(5, value.toPrettyString())
 		        .setParameter(6, KubeUtil.createdTime(value))
 		        .setParameter(7, KubeUtil.updatedTime())
@@ -85,7 +95,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 	}
 
 	@Override
-	public void doHandleModified(KubeData data) throws Exception {
+	public void doHandleModified(KubeDataModel data) throws Exception {
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -99,7 +109,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 		        .setParameter(3, KubeUtil.getName(value))
 		        .setParameter(4, KubeUtil.getNamespace(value))
 		        .setParameter(5, KubeUtil.getGroup(value))
-		        .setParameter(6, System.getenv(Env.ENV_KUBE_REGION))
+		        .setParameter(6, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
 			m_logger.info("完成对象更新：" + value.toPrettyString());
@@ -112,7 +122,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 	}
 
 	@Override
-	public void doHandleDeleted(KubeData data) throws Exception {
+	public void doHandleDeleted(KubeDataModel data) throws Exception {
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -124,7 +134,7 @@ public class PostgresDataTarget extends Target<KubeData> {
 		        .setParameter(1, KubeUtil.getName(value))
 		        .setParameter(2, KubeUtil.getNamespace(value))
 		        .setParameter(3, KubeUtil.getGroup(value))
-		        .setParameter(4, System.getenv(Env.ENV_KUBE_REGION))
+		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
 			m_logger.info("完成对象删除：" + value.toPrettyString());

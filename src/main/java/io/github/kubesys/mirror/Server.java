@@ -5,13 +5,13 @@ package io.github.kubesys.mirror;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.github.kubesys.mirror.cores.Target;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.DataTarget;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.sources.KubeSource;
 import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
 import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
-import io.github.kubesys.mirror.cores.targets.PostgresMetaTarget;
 import io.github.kubesys.mirror.cores.targets.RabbitMQDataTarget;
+import io.github.kubesys.mirror.cores.targets.metadata.PostgresTableCreator;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -31,11 +31,10 @@ public class Server {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-		Target<KubeData> tableTarget = new PostgresMetaTarget();
-		Target<KubeData> dbTarget    = new PostgresDataTarget();
-		Target<KubeData> msgTarget   = new RabbitMQDataTarget();
+		DataTarget<KubeDataModel> dbTarget    = new PostgresDataTarget();
+		DataTarget<KubeDataModel> msgTarget   = new RabbitMQDataTarget();
 		dbTarget.setNext(msgTarget);
-		KubeSource source = new KubeSourceExtractor(tableTarget, dbTarget);
+		KubeSource source = new KubeSourceExtractor(dbTarget);
 		source.startCollect();
 		
 		// 调试的时候用

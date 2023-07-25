@@ -5,7 +5,7 @@ package io.github.kubesys.mirror.cores.datas;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.github.kubesys.mirror.cores.Data;
+import io.github.kubesys.mirror.cores.DataModel;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -13,7 +13,7 @@ import io.github.kubesys.mirror.cores.Data;
  * @since    2023/06/18
  *
  */
-public class KubeData implements Data {
+public class KubeDataModel implements DataModel {
 	
 	
 	/**
@@ -37,7 +37,7 @@ public class KubeData implements Data {
 	 * @param meta            元数据
 	 * @param data            数据
 	 */
-	public KubeData(Meta meta, JsonNode data) {
+	public KubeDataModel(Meta meta, JsonNode data) {
 		super();
 		this.meta = meta;
 		this.data = data;

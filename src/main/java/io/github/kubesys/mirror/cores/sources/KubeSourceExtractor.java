@@ -14,9 +14,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.client.KubernetesConstants;
 import io.github.kubesys.client.KubernetesWatcher;
-import io.github.kubesys.mirror.cores.Target;
-import io.github.kubesys.mirror.cores.datas.KubeData;
-import io.github.kubesys.mirror.cores.datas.KubeData.Meta;
+import io.github.kubesys.mirror.cores.DataTarget;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -38,8 +38,8 @@ public class KubeSourceExtractor extends KubeSource {
 	 */
 	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
 	
-	public KubeSourceExtractor(Target<KubeData> metaTarget, Target<KubeData> dataTarget) throws Exception {
-		super(metaTarget, dataTarget);
+	public KubeSourceExtractor(DataTarget<KubeDataModel> dataTarget) throws Exception {
+		super(dataTarget);
 	}
 
 	@Override
@@ -64,7 +64,6 @@ public class KubeSourceExtractor extends KubeSource {
 	    // 添加元数据描述信息
 		Meta kubeData = KubeUtil.toKubeMeta(fullkind, value);
 		kindToMetaMapper.put(fullkind, kubeData);
-		metaTarget.doHandleAdded(new KubeData(kubeData, null));
 	    
 	    // 只有支持watch才进行监听,真正做数据处理
 	    if (supportWatch(value)) {
@@ -107,9 +106,9 @@ public class KubeSourceExtractor extends KubeSource {
 		/**
 		 * 目标处理器
 		 */
-		protected final Target<KubeData> dataTarget;
+		protected final DataTarget<KubeDataModel> dataTarget;
 		
-		protected KubeCollector(KubernetesClient client, String fullKind, Target<KubeData> target) {
+		protected KubeCollector(KubernetesClient client, String fullKind, DataTarget<KubeDataModel> target) {
 			super(client);
 			this.fullKind = fullKind;
 			this.dataTarget = target;
@@ -120,7 +119,7 @@ public class KubeSourceExtractor extends KubeSource {
 		public void doAdded(JsonNode node) {
 			try {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_ADDED, 
-						new KubeData(kindToMetaMapper.get(fullKind), node));
+						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
 				m_logger.warning("未知错误：" + e + ":" + node.toPrettyString());
 			}
@@ -130,7 +129,7 @@ public class KubeSourceExtractor extends KubeSource {
 		public void doModified(JsonNode node) {
 			try {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_MODIFIED, 
-						new KubeData(kindToMetaMapper.get(fullKind), node));
+						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
 				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
 			}
@@ -140,7 +139,7 @@ public class KubeSourceExtractor extends KubeSource {
 		public void doDeleted(JsonNode node) {
 			try {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_DELETED, 
-						new KubeData(kindToMetaMapper.get(fullKind), node));
+						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
 				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
 			}

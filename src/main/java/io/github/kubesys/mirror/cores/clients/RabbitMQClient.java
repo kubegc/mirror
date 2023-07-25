@@ -15,7 +15,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.ShutdownListener;
 import com.rabbitmq.client.ShutdownSignalException;
 
-import io.github.kubesys.mirror.cores.Env;
+import io.github.kubesys.mirror.cores.Environment;
 
 /**
  * @author wuheng@iscas.ac.cn
@@ -70,8 +70,8 @@ public class RabbitMQClient {
 	 * 
 	 */
 	public RabbitMQClient() {
-		this(getEnv(Env.ENV_MQ_URL, DEFAULT_URL), getEnv(Env.ENV_MQ_PORT, DEFAULT_PORT),
-				getEnv(Env.ENV_MQ_USER, DEFAULT_USERNAME), getEnv(Env.ENV_MQ_PWD, DEFAULT_PASSWORD));
+		this(getEnv(Environment.ENV_MQ_URL, DEFAULT_URL), getEnv(Environment.ENV_MQ_PORT, DEFAULT_PORT),
+				getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
 	}
 
 	/**

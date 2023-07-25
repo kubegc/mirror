@@ -4,10 +4,10 @@
 package io.github.kubesys.mirror.cores.sources;
 
 import io.github.kubesys.client.KubernetesClient;
-import io.github.kubesys.mirror.cores.Env;
-import io.github.kubesys.mirror.cores.Source;
-import io.github.kubesys.mirror.cores.Target;
-import io.github.kubesys.mirror.cores.datas.KubeData;
+import io.github.kubesys.mirror.cores.Environment;
+import io.github.kubesys.mirror.cores.DataSource;
+import io.github.kubesys.mirror.cores.DataTarget;
+import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -16,7 +16,7 @@ import io.github.kubesys.mirror.cores.utils.KubeUtil;
  * @since    2023/06/18
  *
  */
-public abstract class KubeSource extends Source<KubeData> {
+public abstract class KubeSource extends DataSource<KubeDataModel> {
 
 	
 	/**
@@ -24,13 +24,14 @@ public abstract class KubeSource extends Source<KubeData> {
 	 */
 	protected final KubernetesClient kubeClient;
 	
+	
 	/**
 	 * @param metaTarget          处理器，如创建数据库表
 	 * @param dataTarget          处理器，数据处理
 	 * @throws Exception 
 	 */
-	KubeSource(Target<KubeData> metaTarget, Target<KubeData> dataTarget) throws Exception {
-		super(metaTarget, dataTarget);
+	KubeSource(DataTarget<KubeDataModel> dataTarget) throws Exception {
+		super(dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出
 		KubeUtil.checkNull(kubeClient);
@@ -44,8 +45,8 @@ public abstract class KubeSource extends Source<KubeData> {
 	 */
 	private static KubernetesClient initKubeClient() throws Exception {
 		return new KubernetesClient(
-				System.getenv(Env.ENV_KUBE_URL), 
-				System.getenv(Env.ENV_KUBE_TOKEN));
+				System.getenv(Environment.ENV_KUBE_URL), 
+				System.getenv(Environment.ENV_KUBE_TOKEN));
 	}
 
 	/**

@@ -9,9 +9,9 @@ package io.github.kubesys.mirror.cores;
  * @since    2023/06/17
  *
  */
-public final class Env {
+public final class Environment {
 	
-	private Env() {
+	private Environment() {
 		super();
 	}
 
