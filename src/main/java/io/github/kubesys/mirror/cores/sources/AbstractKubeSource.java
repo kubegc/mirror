@@ -16,7 +16,7 @@ import io.github.kubesys.mirror.cores.utils.KubeUtil;
  * @since    2023/06/18
  *
  */
-public abstract class KubeSource extends DataSource<KubeDataModel> {
+public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 
 	
 	/**
@@ -30,7 +30,7 @@ public abstract class KubeSource extends DataSource<KubeDataModel> {
 	 * @param dataTarget          处理器，数据处理
 	 * @throws Exception 
 	 */
-	KubeSource(DataTarget<KubeDataModel> dataTarget) throws Exception {
+	AbstractKubeSource(DataTarget<KubeDataModel> dataTarget) throws Exception {
 		super(dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出

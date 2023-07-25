@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets.metadata;
+package io.github.kubesys.mirror.cores.targets.postgres;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,12 +22,12 @@ import jakarta.persistence.EntityTransaction;
  * @since    2023/06/21
  *
  */
-public class PostgresTableCreator {
+public class PostgresTableMgr {
 
 	/**
 	 * 日志
 	 */
-	static final Logger m_logger = Logger.getLogger(PostgresTableCreator.class.getName());
+	static final Logger m_logger = Logger.getLogger(PostgresTableMgr.class.getName());
 	
 	/**
 	 * 创建表的SQL语法
@@ -76,8 +76,13 @@ public class PostgresTableCreator {
 	/**
 	 * PG的客户端
 	 */
-	private static final PostgresClient pgClient = new PostgresClient();
+	private final PostgresClient pgClient;
 	
+	
+	public PostgresTableMgr(PostgresClient pgClient) {
+		this.pgClient = pgClient;
+	}
+
 	public synchronized void createTableIfNeed(KubeDataModel data) throws Exception {
 		String table = SQLUtil.table(data.getMeta().getPlural());
 		createTableIfNeed(table);
@@ -93,14 +98,13 @@ public class PostgresTableCreator {
 				createTable(table);
 				createdTables.add(table);
 			} catch (SQLGrammarException ex) {
-				m_logger.info("Table'" + table + "'已经创建.");
+				m_logger.info("table '" + table + "' has created.");
 				EntityTransaction transaction = pgClient.getEntityManager().getTransaction();
 				if (transaction.isActive()) {
 					transaction.rollback();
 				}
 			} catch (Exception ex) {
-				m_logger.severe("无法创建Table:" + table + "，原因是" + ex);
-				System.exit(1);
+				m_logger.severe("unable to create table '" + table + "' because of: " + ex);
 			}
 		}
 	}
@@ -110,7 +114,7 @@ public class PostgresTableCreator {
 	 */
 	void createTable(String table) {
 		pgClient.execWithoutResult(CREATE_TABLE.replace(TABLE_NAME, table));
-		m_logger.info("成功创建Table: " + table);
+		m_logger.info("create table '" + table + "' sucessfully.");
 	}
 
 	/**
@@ -123,7 +127,6 @@ public class PostgresTableCreator {
 		}
 	}
 
-
 	void deleteDataIfExist(String table) {
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -135,9 +138,9 @@ public class PostgresTableCreator {
 		        .setParameter(1, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("完成'" + table + "'中region为'" + System.getenv(Environment.ENV_KUBE_REGION) + "'对象删除.");
+			m_logger.info("delete all data in table '" + table + "' of region '" + System.getenv(Environment.ENV_KUBE_REGION) + "'.");
 		} catch (Exception ex) {
-			m_logger.warning("无法删除对象" + ex);
+			m_logger.warning("unable to delete data in table '" + table + "' because of" + ex);
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}

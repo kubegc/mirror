@@ -5,17 +5,11 @@ package io.github.kubesys.mirror.cores.targets;
 
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.targets.metadata.PostgresTableCreator;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
-import io.github.kubesys.mirror.cores.utils.SQLUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import io.github.kubesys.mirror.cores.targets.postgres.PostgresDataMgr;
+import io.github.kubesys.mirror.cores.targets.postgres.PostgresTableMgr;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -56,93 +50,33 @@ public class PostgresDataTarget extends DataTarget<KubeDataModel> {
 	/**
 	 * Table管理
 	 */
-	protected static final PostgresTableCreator ptc = new PostgresTableCreator();
+	protected final PostgresTableMgr tableMgr;
 	
 	/**
-	 * PG的客户端
+	 * 数据管理
 	 */
-	private static final PostgresClient pgClient = new PostgresClient();
+	protected final PostgresDataMgr dataMgr;
 	
+	public PostgresDataTarget() {
+		super();
+		PostgresClient pgClient = new PostgresClient();
+		this.tableMgr = new PostgresTableMgr(pgClient);
+		this.dataMgr  = new PostgresDataMgr(pgClient);
+	}
+
 	@Override
 	public synchronized void doHandleAdded(KubeDataModel data) throws Exception {
-		
-		ptc.createTableIfNeed(data);
-		
-		EntityManager entityManager = pgClient.getEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
-		
-		transaction.begin();
-		try {
-			JsonNode value = data.getData();
-			entityManager.createNativeQuery(INSERT.replace(TABLE_NAME, 
-							SQLUtil.table(data.getMeta().getPlural())))
-		        .setParameter(1, KubeUtil.getName(value))
-		        .setParameter(2, KubeUtil.getNamespace(value))
-		        .setParameter(3, KubeUtil.getGroup(value))
-		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
-		        .setParameter(5, value.toPrettyString())
-		        .setParameter(6, KubeUtil.createdTime(value))
-		        .setParameter(7, KubeUtil.updatedTime())
-		        .executeUpdate();
-			transaction.commit();
-			m_logger.info("完成对象插入：" + value.toPrettyString());
-		} catch (Exception ex) {
-			m_logger.warning("无法插入对象" + ex + ":" + data.getData().toPrettyString());
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		tableMgr.createTableIfNeed(data);
+		dataMgr.saveData(data);
 	}
 
 	@Override
 	public void doHandleModified(KubeDataModel data) throws Exception {
-		EntityManager entityManager = pgClient.getEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
-		
-		transaction.begin();
-		try {
-			JsonNode value = data.getData();
-			entityManager.createNativeQuery(UPDATE.replace(TABLE_NAME, 
-							SQLUtil.table(data.getMeta().getPlural())))
-				.setParameter(1, value.toPrettyString())
-				.setParameter(2, KubeUtil.updatedTime())
-		        .setParameter(3, KubeUtil.getName(value))
-		        .setParameter(4, KubeUtil.getNamespace(value))
-		        .setParameter(5, KubeUtil.getGroup(value))
-		        .setParameter(6, System.getenv(Environment.ENV_KUBE_REGION))
-		        .executeUpdate();
-			transaction.commit();
-			m_logger.info("完成对象更新：" + value.toPrettyString());
-		} catch (Exception ex) {
-			m_logger.warning("无法更新对象" + ex + ":" + data.getData().toPrettyString());
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		dataMgr.updateData(data);
 	}
 
 	@Override
 	public void doHandleDeleted(KubeDataModel data) throws Exception {
-		EntityManager entityManager = pgClient.getEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
-		
-		transaction.begin();
-		try {
-			JsonNode value = data.getData();
-			entityManager.createNativeQuery(DELETE.replace(TABLE_NAME, 
-							SQLUtil.table(data.getMeta().getPlural())))
-		        .setParameter(1, KubeUtil.getName(value))
-		        .setParameter(2, KubeUtil.getNamespace(value))
-		        .setParameter(3, KubeUtil.getGroup(value))
-		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
-		        .executeUpdate();
-			transaction.commit();
-			m_logger.info("完成对象删除：" + value.toPrettyString());
-		} catch (Exception ex) {
-			m_logger.warning("无法删除对象" + ex + ":" + data.getData().toPrettyString());
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		dataMgr.deleteData(data);
 	}
 }

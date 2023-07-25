@@ -25,7 +25,7 @@ import io.github.kubesys.mirror.cores.utils.KubeUtil;
  * @since    2023/06/18
  *
  */
-public class KubeSourceExtractor extends KubeSource {
+public class KubeSourceExtractor extends AbstractKubeSource {
 
 	/**
 	 * 已经监听的Kinds

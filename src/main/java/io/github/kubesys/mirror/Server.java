@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.sources.KubeSource;
+import io.github.kubesys.mirror.cores.sources.AbstractKubeSource;
 import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
 import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
 import io.github.kubesys.mirror.cores.targets.RabbitMQDataTarget;
-import io.github.kubesys.mirror.cores.targets.metadata.PostgresTableCreator;
+import io.github.kubesys.mirror.cores.targets.postgres.PostgresTableMgr;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -34,14 +34,15 @@ public class Server {
 		DataTarget<KubeDataModel> dbTarget    = new PostgresDataTarget();
 		DataTarget<KubeDataModel> msgTarget   = new RabbitMQDataTarget();
 		dbTarget.setNext(msgTarget);
-		KubeSource source = new KubeSourceExtractor(dbTarget);
+		
+		AbstractKubeSource source = new KubeSourceExtractor(dbTarget);
 		source.startCollect();
 		
 		// 调试的时候用
 //		debug(source);
 	}
 
-	static void debug(KubeSource source) throws Exception {
+	static void debug(AbstractKubeSource source) throws Exception {
 		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
 		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
 	}
