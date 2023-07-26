@@ -72,6 +72,9 @@ public class PostgresSQLBuilder {
 	
 	/**
 	 * @param table       表名
+	 * @param dataLabels  标签集合
+	 * @param page        第几页
+	 * @param limit       每页显示的数据数
 	 * @param dataLabels  JSON中任何字符串字段
 	 * @return 模糊匹配结果
 	 */

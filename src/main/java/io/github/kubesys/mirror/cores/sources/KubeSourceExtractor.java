@@ -38,6 +38,10 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	 */
 	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
 	
+	/**
+	 * @param dataTarget     dataTarget
+	 * @throws Exception     Exception
+	 */
 	public KubeSourceExtractor(DataTarget<KubeDataModel> dataTarget) throws Exception {
 		super(dataTarget);
 	}

@@ -40,6 +40,7 @@ public abstract class DataTarget<T> {
 	/**
 	 * 具体处理数据的逻辑
 	 * 
+	 * @param type          处理类型
 	 * @param data          收集到的数据
 	 * @throws Exception    数据处理中产生的错误
 	 */

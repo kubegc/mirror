@@ -56,10 +56,17 @@ public class PostgresDataMgr {
 	private final PostgresClient pgClient;
 	
 	
+	/**
+	 * @param pgClient   pgClient
+	 */
 	public PostgresDataMgr(PostgresClient pgClient) {
 		this.pgClient = pgClient;
 	}
 
+	/**
+	 * @param data    data
+	 * @throws Exception Exception
+	 */
 	public synchronized void saveData(KubeDataModel data) throws Exception {
 		
 		EntityManager entityManager = pgClient.getEntityManager();
@@ -88,6 +95,10 @@ public class PostgresDataMgr {
 		}
 	}
 
+	/**
+	 * @param data  data
+	 * @throws Exception Exception
+	 */
 	public void updateData(KubeDataModel data) throws Exception {
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -114,6 +125,10 @@ public class PostgresDataMgr {
 		}
 	}
 
+	/**
+	 * @param data data
+	 * @throws Exception Exception
+	 */
 	public void deleteData(KubeDataModel data) throws Exception {
 		EntityManager entityManager = pgClient.getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();

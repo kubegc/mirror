@@ -73,16 +73,25 @@ public final class Environment {
 			example = "如abcdedfg12345678")
 	public static final String ENV_KUBE_REGION           = "kubeRegion";
 	
+	/**
+	 * RabbitMQ的Url集群标识
+	 */
 	@Env(description = "RabbitMQ的Url集群标识", 
 			defaultValue = "amqp://kube-message.kube-system:5672" ,
 			example = "如amqp://139.9.165.93:30304")
 	public static final String ENV_MQ_URL                = "mqUrl";
 	
+	/**
+	 * RabbitMQ的用户名
+	 */
 	@Env(description = "RabbitMQ用户名", 
 			defaultValue = "guest" ,
 			example = "如admin")
 	public static final String ENV_MQ_USER               = "mqUser";
 
+	/**
+	 * RabbitMQ的密码
+	 */
 	@Env(description = "RabbitMQ密码", 
 			defaultValue = "guest" ,
 			example = "如admin")

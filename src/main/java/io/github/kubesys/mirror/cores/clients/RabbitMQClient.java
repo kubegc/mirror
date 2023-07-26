@@ -62,7 +62,6 @@ public class RabbitMQClient {
 
 	/**
 	 * @param url      url
-	 * @param port     端口
 	 * @param username 用户名
 	 * @param password 密码
 	 * 
@@ -88,11 +87,20 @@ public class RabbitMQClient {
 		}
 	}
 
+	/**
+	 * @param channel channel
+	 * @param queue queue
+	 * @param data data
+	 * @throws Exception Exception
+	 */
 	public synchronized void publish(Channel channel, String queue, String data) throws Exception {
 		channel.basicPublish("", queue, null, data.getBytes("UTF-8"));
 	}
 
 	
+	/**
+	 * @return Connection
+	 */
 	public Connection getConnection() {
 		return connection;
 	}
