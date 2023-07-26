@@ -55,6 +55,12 @@ public class PostgresClient   {
 	 */
 	static final String DEFAULT_JDBCDRIVER = "org.postgresql.Driver";
 	
+	
+	/**
+	 * 默认驱动
+	 */
+	static final String DEFAULT_POOLSIZE   = "5";
+	
 	/**
 	 * 
 	 * 默认数据库增删改查管理器
@@ -68,7 +74,8 @@ public class PostgresClient   {
 		this(getEnv(Environment.ENV_JDBC_URL, DEFAULT_JDBCURL),
 				getEnv(Environment.ENV_JDBC_USER, DEFAULT_USERNAME),
 				getEnv(Environment.ENV_JDBC_PWD, DEFAULT_PASSWORD),
-				getEnv(Environment.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER));
+				getEnv(Environment.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER),
+				getEnv(Environment.ENV_JDBC_POOLSIZE, DEFAULT_POOLSIZE));
 	}
 	
 	
@@ -77,8 +84,9 @@ public class PostgresClient   {
 	 * @param username       用户名
 	 * @param password       密码
 	 * @param jdbcDriver     jdbc驱动
+	 * @param poolSize       jdbc线程池大小
 	 */
-	public PostgresClient(String jdbcUrl, String username, String password, String jdbcDriver) {
+	public PostgresClient(String jdbcUrl, String username, String password, String jdbcDriver, String poolSize) {
 		try {
 			Configuration configuration = new Configuration();
 	        // 设置数据库连接信息
@@ -86,6 +94,8 @@ public class PostgresClient   {
 	        configuration.setProperty("hibernate.connection.username", username);
 	        configuration.setProperty("hibernate.connection.password", password);
 	        configuration.setProperty("hibernate.connection.driver_class", jdbcDriver);
+	        configuration.setProperty("hibernate.connection.pool_size", poolSize);
+	        
 	        // 构建SessionFactory
 	        SessionFactory sessionFactory = configuration.buildSessionFactory();
 	        // 创建Session对象

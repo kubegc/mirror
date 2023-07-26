@@ -41,6 +41,15 @@ public final class Environment {
 			example = "如admin")
 	public static final String ENV_JDBC_PWD             = "jdbcPwd";
 	
+	
+	/**
+	 * JDBC的Password
+	 */
+	@Env(description = "Postgres线程池大小", 
+			defaultValue = "10" ,
+			example = "如20")
+	public static final String ENV_JDBC_POOLSIZE         = "jdbcPoolSize";
+	
 	/**
 	 * JDBC的Driver
 	 */
