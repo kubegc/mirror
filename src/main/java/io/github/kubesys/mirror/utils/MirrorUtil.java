@@ -20,6 +20,7 @@ public class MirrorUtil {
 		super();
 	}
 
+	
 	/**
 	 * 如果Client为空，后面业务都无法开展，则直接退出
 	 * 
