@@ -3,7 +3,13 @@
  */
 package io.github.kubesys.mirror.cores.utils;
 
-import io.github.kubesys.mirror.cores.Constants;
+import java.sql.Timestamp;
+import java.time.Instant;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import io.github.kubesys.client.KubernetesConstants;
+import io.github.kubesys.mirror.cores.MirrorConstants;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -24,8 +30,8 @@ public class SQLUtil {
 	 * @return 得到table名
 	 */
 	public static String table(String plural) {
-		return plural.replaceAll(Constants.TABLE_REPLACED_SOURCE, 
-								Constants.TABLE_REPLACED_TARGET);
+		return plural.replaceAll(MirrorConstants.TABLE_REPLACED_SOURCE, 
+								MirrorConstants.TABLE_REPLACED_TARGET);
 	}
 	
 	/**
@@ -37,21 +43,41 @@ public class SQLUtil {
 	public static String jsonKey(String value) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(Constants.JSON_DATABASE_ITEM);
+		sb.append(MirrorConstants.JSON_DATABASE_ITEM);
 		
-		String[] parts = value.split(Constants.JSON_INPUT_SPLIT);
+		String[] parts = value.split(MirrorConstants.JSON_INPUT_SPLIT);
 		
 		for (int i = 0; i < parts.length - 1; i++) {
-			sb.append(Constants.JSON_MIDDLE_CONNECTOR)
-				.append(Constants.JSON_SINGLE_QUOTES).append(parts[i])
-				.append(Constants.JSON_SINGLE_QUOTES);
+			sb.append(MirrorConstants.JSON_MIDDLE_CONNECTOR)
+				.append(MirrorConstants.JSON_SINGLE_QUOTES).append(parts[i])
+				.append(MirrorConstants.JSON_SINGLE_QUOTES);
 		}
 		
-		sb.append(Constants.JSON_LAST_CONNECTOR)
-				.append(Constants.JSON_SINGLE_QUOTES)
+		sb.append(MirrorConstants.JSON_LAST_CONNECTOR)
+				.append(MirrorConstants.JSON_SINGLE_QUOTES)
 				.append(parts[parts.length - 1])
-				.append(Constants.JSON_SINGLE_QUOTES);
+				.append(MirrorConstants.JSON_SINGLE_QUOTES);
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * @param json   json
+	 * @return      获得kubernetes的创建时间
+	 */
+	public static Timestamp createdTime(JsonNode json) {
+		String dateTimeStr = json.get(KubernetesConstants.KUBE_METADATA)
+					.get(KubernetesConstants.KUBE_METADATA_CREATED).asText();
+		// 使用DateTimeFormatter解析字符串为Instant对象
+        Instant instant = Instant.parse(dateTimeStr);
+        // 将Instant对象转换为java.sql.Timestamp对象
+        return Timestamp.from(instant);
+	}
+	
+	/**
+	 * @return      获得kubernetes的更新时间
+	 */
+	public static Timestamp updatedTime() {
+        return Timestamp.valueOf(java.time.LocalDateTime.now());
 	}
 }

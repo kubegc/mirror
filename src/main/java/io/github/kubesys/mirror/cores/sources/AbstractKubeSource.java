@@ -8,7 +8,7 @@ import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.DataSource;
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -34,7 +34,7 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 		super(dataTarget);
 		this.kubeClient = initKubeClient();
 		// 缺少环境变量，直接异常退出
-		KubeUtil.checkNull(kubeClient);
+		MirrorUtil.checkNull(kubeClient);
 	}
 
 	/**

@@ -9,8 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -222,7 +223,7 @@ class KubeUtilTest {
 		meta.setKind("Pod");
 		meta.setName("Pod");
 		meta.setPlural("pods");
-		assertEquals(meta.getName(), KubeUtil.toKubeMeta("Pod", 
+		assertEquals(meta.getName(), MirrorUtil.toKubeMeta("Pod", 
 				new ObjectMapper().readTree(meta_json)).getName());
 	}
 	

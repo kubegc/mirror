@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 import io.github.kubesys.mirror.cores.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -82,8 +83,8 @@ public class PostgresDataMgr {
 		        .setParameter(3, KubeUtil.getGroup(value))
 		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
 		        .setParameter(5, value.toPrettyString())
-		        .setParameter(6, KubeUtil.createdTime(value))
-		        .setParameter(7, KubeUtil.updatedTime())
+		        .setParameter(6, SQLUtil.createdTime(value))
+		        .setParameter(7, SQLUtil.updatedTime())
 		        .executeUpdate();
 			transaction.commit();
 			m_logger.info("insert data sucessfully:" + value.toPrettyString());
@@ -109,7 +110,7 @@ public class PostgresDataMgr {
 			entityManager.createNativeQuery(UPDATE.replace(TABLE_NAME, 
 							SQLUtil.table(data.getMeta().getPlural())))
 				.setParameter(1, value.toPrettyString())
-				.setParameter(2, KubeUtil.updatedTime())
+				.setParameter(2, SQLUtil.updatedTime())
 		        .setParameter(3, KubeUtil.getName(value))
 		        .setParameter(4, KubeUtil.getNamespace(value))
 		        .setParameter(5, KubeUtil.getGroup(value))

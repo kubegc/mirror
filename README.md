@@ -14,6 +14,7 @@ This project is based on the following softwares.
 |     client-java               |  https://github.com/kubesys/client-java          |  Apache License 2.0 |
 |     hibernate-core            |  https://github.com/hibernate                    |  Apache License 2.0 |
 |     postgresql                |  https://www.postgresql.org/                     |  Apache License 2.0 |
+|     rabbitmq                  |  https://www.rabbitmq.com/                       |  Apache License 2.0 |
       
 
 ## Architecture
@@ -39,26 +40,50 @@ go to http://IP:30307, and the parameters are:
 
 Login and create a database 'kubestack'
 
-2. deploy Mirror
+
+2. deploy rabbitmq
+
+see [install](https://github.com/kubesys/installer)
+
+```shell
+bash kubeinst init-addon rabbitmq
+
+go to http://IP:30305, and the parameters are:
+
+|      Key            |   Value                       |  
+|---------------------|-------------------------------| 
+|     Username        |   guest                   | 
+|     Password        |   guest                     |
+
+Login and create a database 'kubestack'
+
+3. deploy Mirror
 
 replace yamls/kube-mirror.yaml variables, for example 
 
 ```
         env:
         - name: jdbcUrl
-          value: jdbc:postgresql://127.0.0.1:5432/kubestack
+          value: jdbc:postgresql://kube-database.kubesystem:5432/kubestack (defaultValue)
         - name: jdbcUser
-          value: postgres
+          value: postgres  (defaultValue)
         - name: jdbcPwd
-          value: onceas
+          value: onceas  (defaultValue)
         - name: jdbcDriver
-          value: org.postgresql.Driver
+          value: org.postgresql.Driver  (defaultValue)
         - name: kubeUrl
-          value: https://127.0.0.1:6443
+          value: https://10.96.0.1:443  (defaultValue)
         - name: kubeToken
           value: see getToken in https://github.com/kubesys/client-java
         - name: kubeRegion
           value: test
+        - name: mqUrl
+          value: amqp://kube-message.kube-system:5672  (defaultValue)
+        - name: mqUser
+          value: guest  (defaultValue)
+        - name: mqPwd
+          value: guest  (defaultValue)
+        
 ```
 
 ```shell
@@ -73,7 +98,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>io.github.kubesys</groupId>
   <artifactId>mirror</artifactId>
-  <version>0.2.0</version> 
+  <version>0.2.1</version> 
 </dependency>
 
 <repositories>
@@ -84,7 +109,6 @@ Add this dependency to your project's POM:
     </repository>
 </repositories>
 ```
-
 
 
 ## Roadmap

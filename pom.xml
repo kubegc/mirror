@@ -9,7 +9,7 @@
 	<name>mirror</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<kubeclient.version>1.0.0</kubeclient.version>
+		<kubeclient.version>1.0.1</kubeclient.version>
 		<hibernate.version>6.2.5.Final</hibernate.version>
 		<postgresql.version>42.6.0</postgresql.version>
 		<amqp.version>5.18.0</amqp.version>

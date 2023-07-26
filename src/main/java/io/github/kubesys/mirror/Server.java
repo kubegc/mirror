@@ -11,7 +11,7 @@ import io.github.kubesys.mirror.cores.sources.AbstractKubeSource;
 import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
 import io.github.kubesys.mirror.cores.targets.PostgresTarget;
 import io.github.kubesys.mirror.cores.targets.RabbitMQTarget;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -45,6 +45,6 @@ public class Server {
 
 	static void debug(AbstractKubeSource source) throws Exception {
 		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
-		source.startCollect("Pod", KubeUtil.toKubeMeta("Pod", json));
+		source.startCollect("Pod", MirrorUtil.toKubeMeta("Pod", json));
 	}
 }

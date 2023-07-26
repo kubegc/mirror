@@ -14,10 +14,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.client.KubernetesConstants;
 import io.github.kubesys.client.KubernetesWatcher;
+import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
-import io.github.kubesys.mirror.cores.utils.KubeUtil;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -66,14 +67,14 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	    }
 	    
 	    // 添加元数据描述信息
-		Meta kubeData = KubeUtil.toKubeMeta(fullkind, value);
+		Meta kubeData = MirrorUtil.toKubeMeta(fullkind, value);
 		kindToMetaMapper.put(fullkind, kubeData);
 	    
 	    // 只有支持watch才进行监听,真正做数据处理
-//	    if (supportWatch(value)) {
-//	    	 //开始监听数据
-//		    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
-//	    }
+	    if (KubeUtil.supportWatch(value)) {
+	    	 //开始监听数据
+		    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient, fullkind, dataTarget));
+	    }
 	    
 	    collectedKinds.add(fullkind);
 	}
@@ -85,14 +86,6 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
 	}
 	
-	
-	/**
-	 * @param value      目标KInd的元数据表述
-	 * @return           是否支持被watch，像其见Kubernetes的Watch机制
-	 */
-	private boolean supportWatch(JsonNode value) {
-		return value.get("verbs").toPrettyString().contains("watch");
-	}
 	
 	/**
 	 * @author wuheng@iscas.ac.cn
