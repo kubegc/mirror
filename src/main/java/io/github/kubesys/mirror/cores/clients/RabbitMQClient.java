@@ -3,17 +3,12 @@
  */
 package io.github.kubesys.mirror.cores.clients;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.ShutdownListener;
-import com.rabbitmq.client.ShutdownSignalException;
 
 import io.github.kubesys.mirror.cores.Environment;
 
@@ -34,12 +29,7 @@ public class RabbitMQClient {
 	/**
 	 * 默认MQ地址
 	 */
-	static final String DEFAULT_URL = "kube-message:kube-system";
-
-	/**
-	 * 默认MQ端口
-	 */
-	static final String DEFAULT_PORT = "30304";
+	static final String DEFAULT_URL = "amqp://kube-message.kube-system:5672";
 
 	/**
 	 * 默认用户名
@@ -61,16 +51,12 @@ public class RabbitMQClient {
 	 */
 	protected AMQP.BasicProperties properties;
 
-	/**
-	 * 连接通道
-	 */
-	protected static Map<String, Channel> channels = new HashMap<>();
 
 	/**
 	 * 
 	 */
 	public RabbitMQClient() {
-		this(getEnv(Environment.ENV_MQ_URL, DEFAULT_URL), getEnv(Environment.ENV_MQ_PORT, DEFAULT_PORT),
+		this(getEnv(Environment.ENV_MQ_URL, DEFAULT_URL),
 				getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
 	}
 
@@ -81,17 +67,18 @@ public class RabbitMQClient {
 	 * @param password 密码
 	 * 
 	 */
-	public RabbitMQClient(String url, String port, String username, String password) {
+	public RabbitMQClient(String url, String username, String password) {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost(url);
-			factory.setPort(Integer.parseInt(port)); //
+			factory.setUri(url);
 			factory.setVirtualHost("/");
 			factory.setUsername(username);
 			factory.setPassword(password);
 			factory.setAutomaticRecoveryEnabled(true);
 
-			this.properties = new AMQP.BasicProperties.Builder().expiration("600000") // 10分钟
+			this.properties = new AMQP.BasicProperties
+					.Builder()
+					.expiration("600000") 
 					.build();
 			this.connection = factory.newConnection();
 
@@ -101,22 +88,13 @@ public class RabbitMQClient {
 		}
 	}
 
-	public synchronized void publish(String queue, String data) {
-		Channel channel = channels.get(queue);
+	public synchronized void publish(Channel channel, String queue, String data) throws Exception {
+		channel.basicPublish("", queue, null, data.getBytes("UTF-8"));
+	}
 
-		try {
-			if (channel == null) {
-				channel = connection.createChannel();
-				channel.addShutdownListener(new ConnectionShutdownListener(connection, queue));
-				channels.put(queue, channel);
-			}
-
-			channel.queueDeclare(queue, false, false, false, null);
-			channel.basicPublish("", queue, null, data.getBytes("UTF-8"));
-			m_logger.warning("send message successful," + data);
-		} catch (IOException e) {
-			m_logger.warning("unable to send message:" + e);
-		}
+	
+	public Connection getConnection() {
+		return connection;
 	}
 
 	/**
@@ -129,32 +107,32 @@ public class RabbitMQClient {
 		return val == null ? def : val;
 	}
 
-	private static class ConnectionShutdownListener implements ShutdownListener {
-
-		protected final Connection connection;
-
-		protected final String queue;
-
-		private ConnectionShutdownListener(Connection connection, String queue) {
-			super();
-			this.connection = connection;
-			this.queue = queue;
-		}
-
-		@Override
-		public void shutdownCompleted(ShutdownSignalException cause) {
-			m_logger.warning("unable to connect to rabbitmq:" + cause);
-			try {
-				Channel channel = connection.createChannel();
-				channel.addShutdownListener(new ConnectionShutdownListener(connection, queue));
-				channels.put(queue, channel);
-			} catch (IOException e) {
-				m_logger.warning("unable to connect to rabbitmq:" + e);
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e1) {
-				}
-			}
-		}
-	}
+//	private static class ConnectionShutdownListener implements ShutdownListener {
+//
+//		protected final Connection connection;
+//
+//		protected final String queue;
+//
+//		private ConnectionShutdownListener(Connection connection, String queue) {
+//			super();
+//			this.connection = connection;
+//			this.queue = queue;
+//		}
+//
+//		@Override
+//		public void shutdownCompleted(ShutdownSignalException cause) {
+//			m_logger.warning("unable to connect to rabbitmq:" + cause);
+//			try {
+//				Channel channel = connection.createChannel();
+//				channel.addShutdownListener(new ConnectionShutdownListener(connection, queue));
+//				channels.put(queue, channel);
+//			} catch (IOException e) {
+//				m_logger.warning("unable to connect to rabbitmq:" + e);
+//				try {
+//					Thread.sleep(5000);
+//				} catch (InterruptedException e1) {
+//				}
+//			}
+//		}
+//	}
 }

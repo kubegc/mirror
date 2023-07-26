@@ -9,9 +9,8 @@ import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
 import io.github.kubesys.mirror.cores.sources.AbstractKubeSource;
 import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
-import io.github.kubesys.mirror.cores.targets.PostgresDataTarget;
-import io.github.kubesys.mirror.cores.targets.RabbitMQDataTarget;
-import io.github.kubesys.mirror.cores.targets.postgres.PostgresTableMgr;
+import io.github.kubesys.mirror.cores.targets.PostgresTarget;
+import io.github.kubesys.mirror.cores.targets.RabbitMQTarget;
 import io.github.kubesys.mirror.cores.utils.KubeUtil;
 
 /**
@@ -31,8 +30,8 @@ public class Server {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-		DataTarget<KubeDataModel> dbTarget    = new PostgresDataTarget();
-		DataTarget<KubeDataModel> msgTarget   = new RabbitMQDataTarget();
+		DataTarget<KubeDataModel> dbTarget    = new PostgresTarget();
+		DataTarget<KubeDataModel> msgTarget   = new RabbitMQTarget();
 		dbTarget.setNext(msgTarget);
 		
 		AbstractKubeSource source = new KubeSourceExtractor(dbTarget);

@@ -17,12 +17,12 @@ import io.github.kubesys.mirror.cores.targets.postgres.PostgresTableMgr;
  * @since    2023/06/21
  *
  */
-public class PostgresDataTarget extends DataTarget<KubeDataModel> {
+public class PostgresTarget extends DataTarget<KubeDataModel> {
 
 	/**
 	 * 日志
 	 */
-	static final Logger m_logger = Logger.getLogger(PostgresDataTarget.class.getName());
+	static final Logger m_logger = Logger.getLogger(PostgresTarget.class.getName());
 	
 	/**
 	 * 创建对象的SQL语法
@@ -57,7 +57,7 @@ public class PostgresDataTarget extends DataTarget<KubeDataModel> {
 	 */
 	protected final PostgresDataMgr dataMgr;
 	
-	public PostgresDataTarget() {
+	public PostgresTarget() {
 		super();
 		PostgresClient pgClient = new PostgresClient();
 		this.tableMgr = new PostgresTableMgr(pgClient);

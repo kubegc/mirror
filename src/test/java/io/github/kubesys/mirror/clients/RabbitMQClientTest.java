@@ -24,12 +24,12 @@ public class RabbitMQClientTest {
 
 	private static final String QUEUE_NAME = "test";
 
-	private static final String EXCHANGE_NAME = "exchange";
-
 	public static void main(String[] args) throws Exception {
 		// 创建连接工厂
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUri("amqp://guest:guest@139.9.165.93:30304");
+		factory.setUri("amqp://139.9.165.93:30304");
+		factory.setUsername("guest");
+		factory.setUsername("guest");
 		 // 创建连接
         try (Connection connection = factory.newConnection()) {
             // 创建通道

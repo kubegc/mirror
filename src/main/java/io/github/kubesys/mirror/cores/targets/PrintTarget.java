@@ -12,7 +12,7 @@ import io.github.kubesys.mirror.cores.datas.KubeDataModel;
  * @since    2023/06/18
  *
  */
-public class PrintDataTarget extends DataTarget<KubeDataModel> {
+public class PrintTarget extends DataTarget<KubeDataModel> {
 
 	@Override
 	public void doHandleAdded(KubeDataModel data) throws Exception {

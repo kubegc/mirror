@@ -17,8 +17,8 @@ import jakarta.persistence.EntityTransaction;
 
 /**
  * @author   wuheng@iscas.ac.cn
- * @version  0.0.1
- * @since    2023/06/21
+ * @version  0.2.0
+ * @since    2023/07/25
  *
  */
 public class PostgresDataMgr {
