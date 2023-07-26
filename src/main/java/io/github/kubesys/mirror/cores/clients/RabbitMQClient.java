@@ -42,6 +42,17 @@ public class RabbitMQClient {
 	static final String DEFAULT_PASSWORD = "guest";
 
 	/**
+	 * 默认队列数据超时时间
+	 */
+	static final String DEFAULT_DURATION = "10000";
+	
+	
+	/**
+	 * 默认字符集
+	 */
+	static final String DEFAULT_CHARSET  = "UTF-8";
+	
+	/**
 	 * 连接池
 	 */
 	protected Connection connection;
@@ -57,7 +68,8 @@ public class RabbitMQClient {
 	 */
 	public RabbitMQClient() {
 		this(getEnv(Environment.ENV_MQ_URL, DEFAULT_URL),
-				getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
+				getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), 
+				getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
 	}
 
 	/**
@@ -77,7 +89,7 @@ public class RabbitMQClient {
 
 			this.properties = new AMQP.BasicProperties
 					.Builder()
-					.expiration("600000") 
+					.expiration(DEFAULT_DURATION) 
 					.build();
 			this.connection = factory.newConnection();
 
@@ -94,7 +106,7 @@ public class RabbitMQClient {
 	 * @throws Exception Exception
 	 */
 	public synchronized void publish(Channel channel, String queue, String data) throws Exception {
-		channel.basicPublish("", queue, null, data.getBytes("UTF-8"));
+		channel.basicPublish("", queue, properties, data.getBytes(DEFAULT_CHARSET));
 	}
 
 	

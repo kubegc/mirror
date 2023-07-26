@@ -105,4 +105,13 @@ public final class Environment {
 			defaultValue = "guest" ,
 			example = "如admin")
 	public static final String ENV_MQ_PWD                = "mqPwd";
+	
+	
+	/**
+	 * RabbitMQ的密码
+	 */
+	@Env(description = "RabbitMQ队列数据超期删除时间，单位是毫秒", 
+			defaultValue = "10000" ,
+			example = "100")
+	public static final String ENV_MQ_DURATION          = "mqDuration";
 }
