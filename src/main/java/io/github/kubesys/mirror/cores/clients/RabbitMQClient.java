@@ -11,6 +11,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import io.github.kubesys.mirror.cores.Environment;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 
 /**
  * @author wuheng@iscas.ac.cn
@@ -67,9 +68,9 @@ public class RabbitMQClient {
 	 * 
 	 */
 	public RabbitMQClient() {
-		this(getEnv(Environment.ENV_MQ_URL, DEFAULT_URL),
-				getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), 
-				getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
+		this(MirrorUtil.getEnv(Environment.ENV_MQ_URL, DEFAULT_URL),
+				MirrorUtil.getEnv(Environment.ENV_MQ_USER, DEFAULT_USERNAME), 
+				MirrorUtil.getEnv(Environment.ENV_MQ_PWD, DEFAULT_PASSWORD));
 	}
 
 	/**
@@ -115,16 +116,6 @@ public class RabbitMQClient {
 	 */
 	public Connection getConnection() {
 		return connection;
-	}
-
-	/**
-	 * @param key 关键字
-	 * @param def 默认值
-	 * @return 环境变量
-	 */
-	private static String getEnv(String key, String def) {
-		String val = System.getenv(key);
-		return val == null ? def : val;
 	}
 
 //	private static class ConnectionShutdownListener implements ShutdownListener {

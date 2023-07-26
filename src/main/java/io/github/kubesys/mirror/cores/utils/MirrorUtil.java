@@ -51,4 +51,13 @@ public class MirrorUtil {
 		return meta;
 	}
 	
+	/**
+	 * @param key    关键字
+	 * @param def    默认值
+	 * @return       环境变量
+	 */
+	public static String getEnv(String key, String def) {
+		String val = System.getenv(key);
+		return val == null ? def : val;
+	}
 }

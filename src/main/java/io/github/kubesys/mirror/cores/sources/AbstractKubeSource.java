@@ -20,6 +20,11 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 
 	
 	/**
+	 * 默认Kubernetes的URL
+	 */
+	final static String DEFAULT_URL = "https://10.96.0.1:443";
+	
+	/**
 	 * Kubernetes的客户端
 	 */
 	protected final KubernetesClient kubeClient;
@@ -45,7 +50,7 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 	 */
 	private static KubernetesClient initKubeClient() throws Exception {
 		return new KubernetesClient(
-				System.getenv(Environment.ENV_KUBE_URL), 
+				MirrorUtil.getEnv(Environment.ENV_KUBE_URL, DEFAULT_URL),
 				System.getenv(Environment.ENV_KUBE_TOKEN));
 	}
 

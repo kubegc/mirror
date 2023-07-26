@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.kubesys.mirror.cores.Environment;
+import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
@@ -71,11 +72,11 @@ public class PostgresClient   {
 	 * 
 	 */
 	public PostgresClient() {
-		this(getEnv(Environment.ENV_JDBC_URL, DEFAULT_JDBCURL),
-				getEnv(Environment.ENV_JDBC_USER, DEFAULT_USERNAME),
-				getEnv(Environment.ENV_JDBC_PWD, DEFAULT_PASSWORD),
-				getEnv(Environment.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER),
-				getEnv(Environment.ENV_JDBC_POOLSIZE, DEFAULT_POOLSIZE));
+		this(MirrorUtil.getEnv(Environment.ENV_JDBC_URL, DEFAULT_JDBCURL),
+				MirrorUtil.getEnv(Environment.ENV_JDBC_USER, DEFAULT_USERNAME),
+				MirrorUtil.getEnv(Environment.ENV_JDBC_PWD, DEFAULT_PASSWORD),
+				MirrorUtil.getEnv(Environment.ENV_JDBC_DRIVER, DEFAULT_JDBCDRIVER),
+				MirrorUtil.getEnv(Environment.ENV_JDBC_POOLSIZE, DEFAULT_POOLSIZE));
 	}
 	
 	
@@ -226,14 +227,5 @@ public class PostgresClient   {
 		return entityManager;
 	}
 
-	/**
-	 * @param key    关键字
-	 * @param def    默认值
-	 * @return       环境变量
-	 */
-	private static String getEnv(String key, String def) {
-		String val = System.getenv(key);
-		return val == null ? def : val;
-	}
 	
 }
