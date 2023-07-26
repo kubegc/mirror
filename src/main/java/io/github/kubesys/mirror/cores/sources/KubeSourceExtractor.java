@@ -30,13 +30,13 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	/**
 	 * 已经监听的Kinds
 	 */
-	static final Set<String> collectedKinds = new HashSet<>();
+	public static final Set<String> collectedKinds = new HashSet<>();
 	
 	/**
 	 * fullKind与元数据描述映射关系
 	 * fullKind = group + "." + kind
 	 */
-	protected static Map<String, Meta> kindToMetaMapper = new HashMap<>();
+	public static Map<String, Meta> kindToMetaMapper = new HashMap<>();
 	
 	/**
 	 * @param dataTarget     dataTarget
@@ -70,10 +70,10 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 		kindToMetaMapper.put(fullkind, kubeData);
 	    
 	    // 只有支持watch才进行监听,真正做数据处理
-	    if (supportWatch(value)) {
-	    	 //开始监听数据
-		    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
-	    }
+//	    if (supportWatch(value)) {
+//	    	 //开始监听数据
+//		    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient,fullkind, dataTarget));
+//	    }
 	    
 	    collectedKinds.add(fullkind);
 	}
@@ -125,7 +125,7 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_ADDED, 
 						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e + ":" + node.toPrettyString());
+				m_logger.warning("unknown error: " + e + ":" + node.toPrettyString());
 			}
 		}
 
@@ -135,7 +135,7 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_MODIFIED, 
 						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
+				m_logger.warning("unknown error: " + e  + ":" + node.toPrettyString());
 			}
 		}
 
@@ -145,13 +145,13 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_DELETED, 
 						new KubeDataModel(kindToMetaMapper.get(fullKind), node));
 			} catch (Exception e) {
-				m_logger.warning("未知错误：" + e  + ":" + node.toPrettyString());
+				m_logger.warning("unknown error: " + e  + ":" + node.toPrettyString());
 			}
 		}
 
 		@Override
 		public void doClose() {
-			m_logger.severe("由于网络断开，证书变更等原因无法再监听，等待3秒重新连接" + fullKind);
+			m_logger.severe("connection is close, wait for reconnect " + fullKind);
 			try {
 				Thread.sleep(3000);
 				 client.watchResources(fullKind, new KubeCollector(client, fullKind, dataTarget));

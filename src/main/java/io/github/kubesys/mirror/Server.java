@@ -31,11 +31,13 @@ public class Server {
 	public static void main(String[] args) throws Exception {
 		
 		DataTarget<KubeDataModel> dbTarget    = new PostgresTarget();
-		DataTarget<KubeDataModel> msgTarget   = new RabbitMQTarget();
-		dbTarget.setNext(msgTarget);
+//		DataTarget<KubeDataModel> msgTarget   = new RabbitMQTarget();
+//		dbTarget.setNext(msgTarget);
 		
 		AbstractKubeSource source = new KubeSourceExtractor(dbTarget);
 		source.startCollect();
+		
+		System.out.println(KubeSourceExtractor.collectedKinds);
 		
 		// 调试的时候用
 //		debug(source);

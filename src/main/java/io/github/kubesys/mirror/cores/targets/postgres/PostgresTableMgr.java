@@ -86,7 +86,6 @@ public class PostgresTableMgr {
 	public synchronized void createTableIfNeed(KubeDataModel data) throws Exception {
 		String table = SQLUtil.table(data.getMeta().getPlural());
 		createTableIfNeed(table);
-		deleteDataIfExist(table);
 	}
 
 	/**
@@ -96,6 +95,7 @@ public class PostgresTableMgr {
 		if (!createdTables.contains(table)) {
 			try {
 				createTable(table);
+				deleteDataIfExist(table);
 				createdTables.add(table);
 			} catch (SQLGrammarException ex) {
 				m_logger.info("table '" + table + "' has created.");
