@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 
 import io.github.kubesys.mirror.cores.clients.RabbitMQClient;
 

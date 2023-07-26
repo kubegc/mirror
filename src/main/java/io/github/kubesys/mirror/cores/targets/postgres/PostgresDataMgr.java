@@ -79,9 +79,9 @@ public class PostgresDataMgr {
 		        .setParameter(7, KubeUtil.updatedTime())
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("完成对象插入：" + value.toPrettyString());
+			m_logger.info("insert data sucessfully:" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法插入对象" + ex + ":" + data.getData().toPrettyString());
+			m_logger.warning("unable to insert data: " + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
@@ -105,9 +105,9 @@ public class PostgresDataMgr {
 		        .setParameter(6, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("完成对象更新：" + value.toPrettyString());
+			m_logger.info("update data sucessfully:" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法更新对象" + ex + ":" + data.getData().toPrettyString());
+			m_logger.warning("unable to update data: " + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
@@ -129,9 +129,9 @@ public class PostgresDataMgr {
 		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("完成对象删除：" + value.toPrettyString());
+			m_logger.info("delete data sucessfully:" + value.toPrettyString());
 		} catch (Exception ex) {
-			m_logger.warning("无法删除对象" + ex + ":" + data.getData().toPrettyString());
+			m_logger.warning("unable to delete data: " + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
