@@ -22,7 +22,7 @@ import io.github.kubesys.mirror.cores.utils.MirrorUtil;
  * 
  * 具体文档见https://www.yuque.com/kubesys/backend/cbtrr8nshxowbgiy
  */
-public class Server {
+public class MirrorServer {
 	
 	/**
 	 * @param args      系统参数
@@ -31,13 +31,11 @@ public class Server {
 	public static void main(String[] args) throws Exception {
 		
 		DataTarget<KubeDataModel> dbTarget    = new PostgresTarget();
-//		DataTarget<KubeDataModel> msgTarget   = new RabbitMQTarget();
-//		dbTarget.setNext(msgTarget);
+		DataTarget<KubeDataModel> msgTarget   = new RabbitMQTarget();
+		dbTarget.setNext(msgTarget);
 		
 		AbstractKubeSource source = new KubeSourceExtractor(dbTarget);
 		source.startCollect();
-		
-		System.out.println(KubeSourceExtractor.collectedKinds);
 		
 		// 调试的时候用
 //		debug(source);

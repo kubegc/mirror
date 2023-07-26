@@ -78,7 +78,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>io.github.kubesys.mirror.Server</mainClass>
+							<mainClass>io.github.kubesys.mirror.MirrorServer</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>

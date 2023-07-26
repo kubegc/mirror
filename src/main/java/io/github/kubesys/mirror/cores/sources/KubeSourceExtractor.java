@@ -31,7 +31,12 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	/**
 	 * 已经监听的Kinds
 	 */
-	public static final Set<String> collectedKinds = new HashSet<>();
+	public static final Set<String> watchedKinds = new HashSet<>();
+	
+	/**
+	 * 忽略得Kinds
+	 */
+	public static final Set<String> ignoredKinds = new HashSet<>();
 	
 	/**
 	 * fullKind与元数据描述映射关系
@@ -61,8 +66,15 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 	}
 	
 	private void startCollect(String fullkind, JsonNode value) throws Exception {
+		
 		// 已经监测过了，不再监测
-	    if (collectedKinds.contains(fullkind)) {
+	    if (watchedKinds.contains(fullkind)) {
+	    	return;
+	    }
+	    
+	    // 不支持监听就忽略退出
+	    if (!KubeUtil.supportWatch(value)) {
+	    	ignoredKinds.add(fullkind);
 	    	return;
 	    }
 	    
@@ -70,13 +82,9 @@ public class KubeSourceExtractor extends AbstractKubeSource {
 		Meta kubeData = MirrorUtil.toKubeMeta(fullkind, value);
 		kindToMetaMapper.put(fullkind, kubeData);
 	    
-	    // 只有支持watch才进行监听,真正做数据处理
-	    if (KubeUtil.supportWatch(value)) {
-	    	 //开始监听数据
-		    kubeClient.watchResources(fullkind, new KubeCollector(kubeClient, fullkind, dataTarget));
-	    }
-	    
-	    collectedKinds.add(fullkind);
+    	//开始监听数据
+		kubeClient.watchResources(fullkind, new KubeCollector(kubeClient, fullkind, dataTarget));
+	    watchedKinds.add(fullkind);
 	}
 
 	@Override

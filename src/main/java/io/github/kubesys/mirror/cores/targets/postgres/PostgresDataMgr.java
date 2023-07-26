@@ -11,7 +11,6 @@ import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
 import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.utils.MirrorUtil;
 import io.github.kubesys.mirror.cores.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;

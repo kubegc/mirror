@@ -2,6 +2,8 @@
 
 We intend to store all Kubernetes data in a relational database (e.g., Postgres):
 
+**Note that** only a kind has resources, we will create a table in the database.
+
 This code is based on JDK 17 and Maven 3.8.3
 
 - **Flexibility**. It can support all Kubernetes-based systems without extra development, such as [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift), [istio](https://istio.io/), etc.
