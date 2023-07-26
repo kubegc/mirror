@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.kubesys.mirror.cores.Environment;
-import io.github.kubesys.mirror.cores.utils.MirrorUtil;
+import io.github.kubesys.mirror.utils.MirrorUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;

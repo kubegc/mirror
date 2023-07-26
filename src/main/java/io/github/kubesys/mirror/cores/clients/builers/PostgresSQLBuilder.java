@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import io.github.kubesys.mirror.cores.utils.SQLUtil;
+import io.github.kubesys.mirror.utils.SQLUtil;
 
 /**
  * @author wuheng@iscas.ac.cn

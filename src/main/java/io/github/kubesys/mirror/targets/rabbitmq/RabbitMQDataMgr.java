@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets.rabbitmq;
+package io.github.kubesys.mirror.targets.rabbitmq;
 
 import java.util.logging.Logger;
 
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rabbitmq.client.Channel;
 
 import io.github.kubesys.mirror.cores.clients.RabbitMQClient;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel;
+import io.github.kubesys.mirror.datas.KubeDataModel;
 
 /**
  * @author   wuheng@iscas.ac.cn

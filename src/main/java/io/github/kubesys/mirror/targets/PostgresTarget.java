@@ -1,15 +1,15 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets;
+package io.github.kubesys.mirror.targets;
 
 import java.util.logging.Logger;
 
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.targets.postgres.PostgresDataMgr;
-import io.github.kubesys.mirror.cores.targets.postgres.PostgresTableMgr;
+import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.targets.postgres.PostgresDataMgr;
+import io.github.kubesys.mirror.targets.postgres.PostgresTableMgr;
 
 /**
  * @author   wuheng@iscas.ac.cn

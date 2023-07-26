@@ -6,12 +6,12 @@ package io.github.kubesys.mirror;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.kubesys.mirror.cores.DataTarget;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.sources.AbstractKubeSource;
-import io.github.kubesys.mirror.cores.sources.KubeSourceExtractor;
-import io.github.kubesys.mirror.cores.targets.PostgresTarget;
-import io.github.kubesys.mirror.cores.targets.RabbitMQTarget;
-import io.github.kubesys.mirror.cores.utils.MirrorUtil;
+import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.sources.AbstractKubeSource;
+import io.github.kubesys.mirror.sources.KubeSourceExtractor;
+import io.github.kubesys.mirror.targets.PostgresTarget;
+import io.github.kubesys.mirror.targets.RabbitMQTarget;
+import io.github.kubesys.mirror.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

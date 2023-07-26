@@ -1,12 +1,12 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.utils;
+package io.github.kubesys.mirror.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.kubesys.client.KubernetesConstants;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
+import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn

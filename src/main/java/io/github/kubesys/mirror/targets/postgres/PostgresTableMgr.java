@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets.postgres;
+package io.github.kubesys.mirror.targets.postgres;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +11,8 @@ import org.hibernate.exception.SQLGrammarException;
 
 import io.github.kubesys.mirror.cores.Environment;
 import io.github.kubesys.mirror.cores.clients.PostgresClient;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.utils.SQLUtil;
+import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.utils.SQLUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

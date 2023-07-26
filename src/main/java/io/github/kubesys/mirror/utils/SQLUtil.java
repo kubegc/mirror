@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.utils;
+package io.github.kubesys.mirror.utils;
 
 import java.sql.Timestamp;
 import java.time.Instant;

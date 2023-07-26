@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets;
+package io.github.kubesys.mirror.targets;
 
 import java.util.logging.Logger;
 
@@ -10,10 +10,10 @@ import com.rabbitmq.client.Channel;
 import io.github.kubesys.client.KubernetesConstants;
 import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.cores.clients.RabbitMQClient;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel;
-import io.github.kubesys.mirror.cores.targets.rabbitmq.RabbitMQDataMgr;
-import io.github.kubesys.mirror.cores.targets.rabbitmq.RabbitMQQueueMgr;
-import io.github.kubesys.mirror.cores.utils.SQLUtil;
+import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.targets.rabbitmq.RabbitMQDataMgr;
+import io.github.kubesys.mirror.targets.rabbitmq.RabbitMQQueueMgr;
+import io.github.kubesys.mirror.utils.SQLUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

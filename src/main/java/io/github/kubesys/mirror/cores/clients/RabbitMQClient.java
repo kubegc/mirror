@@ -11,7 +11,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import io.github.kubesys.mirror.cores.Environment;
-import io.github.kubesys.mirror.cores.utils.MirrorUtil;
+import io.github.kubesys.mirror.utils.MirrorUtil;
 
 /**
  * @author wuheng@iscas.ac.cn

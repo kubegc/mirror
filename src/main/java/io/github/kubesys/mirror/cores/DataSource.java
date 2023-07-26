@@ -3,7 +3,7 @@
  */
 package io.github.kubesys.mirror.cores;
 
-import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
+import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
 
 /**
  * @author   wuheng@iscas.ac.cn

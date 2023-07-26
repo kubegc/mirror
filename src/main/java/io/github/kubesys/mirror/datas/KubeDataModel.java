@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.datas;
+package io.github.kubesys.mirror.datas;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

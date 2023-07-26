@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.kubesys.client.utils.KubeUtil;
-import io.github.kubesys.mirror.cores.datas.KubeDataModel.Meta;
-import io.github.kubesys.mirror.cores.utils.MirrorUtil;
+import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
+import io.github.kubesys.mirror.utils.MirrorUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn

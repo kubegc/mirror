@@ -1,7 +1,7 @@
 /**
  * Copyright (2023, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubesys.mirror.cores.targets.rabbitmq;
+package io.github.kubesys.mirror.targets.rabbitmq;
 
 import java.io.IOException;
 import java.util.HashMap;
