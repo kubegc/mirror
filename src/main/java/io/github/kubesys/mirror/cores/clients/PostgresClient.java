@@ -39,7 +39,7 @@ public class PostgresClient   {
 	/**
 	 * 默认postgres地址
 	 */
-	static final String DEFAULT_JDBCURL    = "jdbc:postgresql://kube-database:kube-system:30306/database";
+	static final String DEFAULT_JDBCURL    = "jdbc:postgresql://kube-database:kube-system:30306/kubestack?useUnicode=true&characterEncoding=UTF8&autoReconnect=true&&serverTimezone=Asia/Shang";
 	
 	/**
 	 * 默认用户名
