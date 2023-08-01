@@ -118,32 +118,4 @@ public class RabbitMQClient {
 		return connection;
 	}
 
-//	private static class ConnectionShutdownListener implements ShutdownListener {
-//
-//		protected final Connection connection;
-//
-//		protected final String queue;
-//
-//		private ConnectionShutdownListener(Connection connection, String queue) {
-//			super();
-//			this.connection = connection;
-//			this.queue = queue;
-//		}
-//
-//		@Override
-//		public void shutdownCompleted(ShutdownSignalException cause) {
-//			m_logger.warning("unable to connect to rabbitmq:" + cause);
-//			try {
-//				Channel channel = connection.createChannel();
-//				channel.addShutdownListener(new ConnectionShutdownListener(connection, queue));
-//				channels.put(queue, channel);
-//			} catch (IOException e) {
-//				m_logger.warning("unable to connect to rabbitmq:" + e);
-//				try {
-//					Thread.sleep(5000);
-//				} catch (InterruptedException e1) {
-//				}
-//			}
-//		}
-//	}
 }
