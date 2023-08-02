@@ -3,7 +3,7 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata: 
   name: "kube-mirror"
-  namespace: "kube-system"
+  namespace: "kube-stack"
   labels: 
     name: "kube-mirror"
 spec: 
