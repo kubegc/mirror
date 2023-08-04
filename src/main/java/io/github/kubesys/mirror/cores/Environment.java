@@ -86,7 +86,7 @@ public final class Environment {
 	 * RabbitMQ的Url集群标识
 	 */
 	@Env(description = "RabbitMQ的Url集群标识", 
-			defaultValue = "amqp://kube-message.kube-system:5672" ,
+			defaultValue = "amqp://kube-message.kube-stack:5672" ,
 			example = "如amqp://139.9.165.93:30304")
 	public static final String ENV_MQ_URL                = "mqUrl";
 	
