@@ -1,4 +1,4 @@
-FROM openjdk:11.0.16-slim
+FROM openjdk:17.0.2-slim
 
 RUN mkdir -p /home/kube-mirror
 
