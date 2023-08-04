@@ -100,7 +100,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>io.github.kubesys</groupId>
   <artifactId>mirror</artifactId>
-  <version>0.2.3</version> 
+  <version>0.2.4</version> 
 </dependency>
 
 <repositories>
