@@ -119,7 +119,8 @@ public class PostgresDataMgr {
 		        .setParameter(6, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("update data sucessfully:" + value.toPrettyString());
+			m_logger.info("update data sucessfully at " + SQLUtil.updatedTime() + ": (" + data.getMeta().getKind() + "," 
+					+ KubeUtil.getNamespace(value) + "," + KubeUtil.getName(value) + ")");
 		} catch (Exception ex) {
 			m_logger.warning("unable to update data: " + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
@@ -147,7 +148,8 @@ public class PostgresDataMgr {
 		        .setParameter(4, System.getenv(Environment.ENV_KUBE_REGION))
 		        .executeUpdate();
 			transaction.commit();
-			m_logger.info("delete data sucessfully:" + value.toPrettyString());
+			m_logger.info("delete data sucessfully at " + SQLUtil.updatedTime() + ": (" + data.getMeta().getKind() + "," 
+					+ KubeUtil.getNamespace(value) + "," + KubeUtil.getName(value) + ")");
 		} catch (Exception ex) {
 			m_logger.warning("unable to delete data: " + ex + ":" + data.getData().toPrettyString());
 			if (transaction.isActive()) {
