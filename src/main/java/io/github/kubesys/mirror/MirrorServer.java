@@ -42,7 +42,7 @@ public class MirrorServer {
 		listener.startCollect();
 		
 		// 调试的时候用
-//		debug(source);
+//		debug(extrator);
 	}
 
 	static void debug(AbstractKubeSource source) throws Exception {
