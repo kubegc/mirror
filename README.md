@@ -127,10 +127,21 @@ Add this dependency to your project's POM:
 ## Applications
 
 - Pod <--> Workloads
-  - SELECT data -> 'metadata' ->> 'ownerReferences' AS value FROM pods
+  - SELECT name, namespace, data -> 'metadata' ->> 'ownerReferences' AS value FROM pods
 
 - Pod <--> PVC
-- SELECT data -> 'spec' ->> 'volumes' AS value FROM pods
+  - SELECT name, namespace, value
+		FROM pods,
+		     LATERAL json_array_elements(data -> 'spec' -> 'volumes') AS value
+		WHERE value -> 'persistentVolumeClaim' IS NOT NULL
 
 - Pod <--> ConfigMap
-  - 
+  - SELECT name, namespace, value
+		FROM pods,
+		     LATERAL json_array_elements(data -> 'spec' -> 'volumes') AS value
+		WHERE value -> 'configMap' IS NOT NULL
+  - SELECT name, namespace, envs
+		FROM pods,
+		     LATERAL json_array_elements(data -> 'spec' -> 'containers') AS containers,
+		     LATERAL json_array_elements(containers -> 'envFrom') AS envs
+		WHERE envs -> 'configMapRef' IS NOT NULL;
