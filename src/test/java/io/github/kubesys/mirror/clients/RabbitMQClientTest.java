@@ -3,10 +3,15 @@
  */
 package io.github.kubesys.mirror.clients;
 
+import java.io.IOException;
+
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
 
 /**
  * @author wuheng@iscas.ac.cn
@@ -17,14 +22,14 @@ import com.rabbitmq.client.ConnectionFactory;
  */
 public class RabbitMQClientTest {
 
-	private static final String QUEUE_NAME = "test";
+	private static final String QUEUE_NAME = "leases";
 
 	public static void main(String[] args) throws Exception {
 		// 创建连接工厂
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setUri("amqp://139.9.165.93:30304");
-		factory.setUsername("guest");
-		factory.setUsername("guest");
+		factory.setUsername("rabbitmq");
+		factory.setPassword("onceas");
 		
 		
 		AMQP.BasicProperties properties = new AMQP.BasicProperties
@@ -33,29 +38,29 @@ public class RabbitMQClientTest {
 				.build();
 		
 		 // 创建连接
-        try (Connection connection = factory.newConnection()) {
-            // 创建通道
-            try (Channel channel = connection.createChannel()) {
-                // 声明队列
-                channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-
-                // 发送消息
-                String message = "Hello RabbitMQ!";
-                channel.basicPublish("", QUEUE_NAME, properties, message.getBytes());
-                System.out.println(" [x] Sent '" + message + "'");
-
-                // 接收消息
-//                Consumer consumer = new DefaultConsumer(channel) {
-//                    @Override
-//                    public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-//                        String message = new String(body, "UTF-8");
-//                        System.out.println(" [x] Received '" + message + "'");
-//                    }
-//                };
-//                
-//                channel.basicConsume(QUEUE_NAME, true, consumer);
-            }
-        }
+//        try (Connection connection = factory.newConnection()) {
+//            // 创建通道
+//            try (Channel channel = connection.createChannel()) {
+//                // 声明队列
+//                channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+//
+//                // 发送消息
+//                String message = "Hello RabbitMQ!";
+//                channel.basicPublish("", QUEUE_NAME, properties, message.getBytes());
+//                System.out.println(" [x] Sent '" + message + "'");
+//
+//                // 接收消息
+////                Consumer consumer = new DefaultConsumer(channel) {
+////                    @Override
+////                    public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+////                        String message = new String(body, "UTF-8");
+////                        System.out.println(" [x] Received '" + message + "'");
+////                    }
+////                };
+////                
+////                channel.basicConsume(QUEUE_NAME, true, consumer);
+//            }
+//        }
 //		factory.setHost("kube-message-5bb49878f6-27dk8");
 //		factory.setHost("139.9.165.93"); // RabbitMQ 服务器的主机地址
 //		factory.setPort(30304); // RabbitMQ 服务器的端口号
@@ -64,10 +69,10 @@ public class RabbitMQClientTest {
 //		factory.setPassword("onceas"); // RabbitMQ 的密码
 //		factory.setMetricsCollector(new StandardMetricsCollector());
 
-//		Connection connection = factory.newConnection();
-//		Channel channel = connection.createChannel();
-//		
-//		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		Connection connection = factory.newConnection();
+		Channel channel = connection.createChannel();
+		
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 //
 //		for (int i = 0; i < 100; i++) {
 //			String message = "{\"oderId\":" + ThreadLocalRandom.current().nextInt(1000, 2000) + ", \"items\":[{\"id\":"
@@ -103,16 +108,16 @@ public class RabbitMQClientTest {
 //        }
 
 		// 创建一个消费者
-//        Consumer consumer = new DefaultConsumer(channel) {
-//            @Override
-//            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-//                String message = new String(body, "UTF-8");
-//                System.out.println("Received message: " + message);
-//            }
-//        };
-//
-//        // 开始监听队列并消费消息
-//        channel.basicConsume(QUEUE_NAME, true, consumer);
+        Consumer consumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String message = new String(body, "UTF-8");
+                System.out.println("Received message: " + message);
+            }
+        };
+
+        // 开始监听队列并消费消息
+        channel.basicConsume(QUEUE_NAME, true, consumer);
         
 	}
 }

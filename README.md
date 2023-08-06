@@ -127,7 +127,12 @@ Add this dependency to your project's POM:
 ## Applications
 
 - Pod <--> Workloads
-  - SELECT name, namespace, data -> 'metadata' ->> 'ownerReferences' AS value FROM pods
+  - SELECT name, namespace, data -> 'metadata' ->> 'ownerReferences' AS value 
+        FROM pods
+
+- Pod <--> Namespace
+  - SELECT name, namespace 
+        FROM pods
 
 - Pod <--> PVC
   - SELECT name, namespace, value
@@ -145,3 +150,22 @@ Add this dependency to your project's POM:
 		     LATERAL json_array_elements(data -> 'spec' -> 'containers') AS containers,
 		     LATERAL json_array_elements(containers -> 'envFrom') AS envs
 		WHERE envs -> 'configMapRef' IS NOT NULL;
+		
+- Pod <--> Secret
+  - SELECT name, namespace, value
+		FROM pods,
+		     LATERAL json_array_elements(data -> 'spec' -> 'volumes') AS value
+		WHERE value -> 'secret' IS NOT NULL
+  - SELECT name, namespace, envs
+		FROM pods,
+		     LATERAL json_array_elements(data -> 'spec' -> 'containers') AS containers,
+		     LATERAL json_array_elements(containers -> 'envFrom') AS envs
+		WHERE envs -> 'secretRef' IS NOT NULL;
+		
+- Pod <--> Node
+  - SELECT name, namespace, data -> 'spec' ->> 'nodeName' as node
+		FROM pods
+		
+- PV <--> PVC
+  - SELECT name, namespace, data -> 'spec' ->> 'claimRef' as pvc 
+        FROM persistentvolumes
