@@ -9,8 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rabbitmq.client.Channel;
 
+import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.cores.clients.RabbitMQClient;
 import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.utils.SQLUtil;
 
 /**
  * @author   wuheng@iscas.ac.cn
@@ -39,8 +41,9 @@ public class RabbitMQDataMgr {
 		
 		try {
 			mqClient.publish(channel, queue, msg.toPrettyString());
+			m_logger.info("send data sucessfully at " + SQLUtil.updatedTime() + ": (" + data.getMeta().getKind() + "," 
+					+ KubeUtil.getNamespace(data.getData()) + "," + KubeUtil.getName(data.getData()) + ")");
 		} catch (Exception e) {
-			// TODO
 			m_logger.severe(e.toString());
 		}
 	}
