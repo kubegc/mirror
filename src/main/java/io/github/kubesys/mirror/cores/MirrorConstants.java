@@ -16,6 +16,8 @@ public final class MirrorConstants {
 	}
 
 	
+	public static final String KUBE_CA_PATH            = "/root/.kube/config";
+	
 	/**
 	 * 取值为-/
 	 */

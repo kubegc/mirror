@@ -100,7 +100,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>io.github.kubesys</groupId>
   <artifactId>mirror</artifactId>
-  <version>0.2.5</version> 
+  <version>0.2.6</version> 
 </dependency>
 
 <repositories>
@@ -124,7 +124,7 @@ Add this dependency to your project's POM:
 - show max_connections
 - select count(1) from pg_stat_activity
 
-## Applications
+## Relationships
 
 - Pod <--> Workloads
   - SELECT name, namespace, data -> 'metadata' ->> 'ownerReferences' AS value 
@@ -169,3 +169,8 @@ Add this dependency to your project's POM:
 - PV <--> PVC
   - SELECT name, namespace, data -> 'spec' ->> 'claimRef' as pvc 
         FROM persistentvolumes
+        
+        
+## Security
+
+- 

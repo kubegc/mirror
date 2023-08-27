@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import io.github.kubesys.mirror.utils.SQLUtil;
-
 /**
  * @author   wuheng@iscas.ac.cn
  * @version  0.0.1

@@ -3,6 +3,7 @@
  */
 package io.github.kubesys.mirror.sources;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,11 +15,12 @@ import io.github.kubesys.client.KubernetesClient;
 import io.github.kubesys.client.KubernetesConstants;
 import io.github.kubesys.client.KubernetesWatcher;
 import io.github.kubesys.client.utils.KubeUtil;
-import io.github.kubesys.mirror.cores.Environment;
-import io.github.kubesys.mirror.datas.KubeDataModel;
-import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
 import io.github.kubesys.mirror.cores.DataSource;
 import io.github.kubesys.mirror.cores.DataTarget;
+import io.github.kubesys.mirror.cores.Environment;
+import io.github.kubesys.mirror.cores.MirrorConstants;
+import io.github.kubesys.mirror.datas.KubeDataModel;
+import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
 import io.github.kubesys.mirror.utils.MirrorUtil;
 
 /**
@@ -82,9 +84,16 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 	 * @throws Exception 无法连接Kubernetes
 	 */
 	private static KubernetesClient initKubeClient() throws Exception {
-		return new KubernetesClient(
-				MirrorUtil.getEnv(Environment.ENV_KUBE_URL, DEFAULT_URL),
-				System.getenv(Environment.ENV_KUBE_TOKEN));
+		
+		File file = new File(MirrorConstants.KUBE_CA_PATH);
+		if (file.exists()) {
+			return new KubernetesClient();
+		} else {
+			return new KubernetesClient(
+					MirrorUtil.getEnv(Environment.ENV_KUBE_URL, DEFAULT_URL),
+					System.getenv(Environment.ENV_KUBE_TOKEN));
+		}
+		
 	}
 
 	/**
