@@ -16,6 +16,20 @@ public final class MirrorConstants {
 	}
 
 	
+	/**
+	 * APIVERSION
+	 */
+	public static final String KUBE_APIGROUP           = "apiextensions.k8s.io";
+	
+	
+	/**
+	 * CRD
+	 */
+	public static final String KUBE_RESDEF             = "CustomResourceDefinition";
+	
+	/**
+	 * CA 
+	 */
 	public static final String KUBE_CA_PATH            = "/root/.kube/config";
 	
 	/**

@@ -6,6 +6,7 @@ package io.github.kubesys.mirror.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.kubesys.client.KubernetesConstants;
+import io.github.kubesys.client.utils.KubeUtil;
 import io.github.kubesys.mirror.datas.KubeDataModel.Meta;
 
 /**
@@ -30,6 +31,25 @@ public class MirrorUtil {
 		if (client == null) {
 			System.exit(1);
 		}
+	}
+	
+	
+	/**
+	 * 得到KubeData的元数据meta，不考虑raw为空或者不符合Kuberneres资源定义的的情况
+	 * 否则抛出异常
+	 * https://kubernetes.io/docs/concepts/overview/working-with-objects/
+	 * 
+	 * @param name    名称
+	 * @param raw     原始数据
+	 * @return 得到KubeData的元数据meta
+	 */
+	public static Meta toKubeMeta(JsonNode crd) {
+		Meta meta = new Meta();
+		meta.setName(KubeUtil.getCrdKind(crd));
+		meta.setGroup(KubeUtil.getCrdGroup(crd));
+		meta.setKind(KubeUtil.getCrdKind(crd));
+		meta.setPlural(KubeUtil.getCrdPlural(crd));
+		return meta;
 	}
 	
 	/**

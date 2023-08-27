@@ -95,17 +95,16 @@ public class PostgresTableMgr {
 		if (!createdTables.contains(table)) {
 			try {
 				createTable(table);
-				deleteDataIfExist(table);
-				createdTables.add(table);
 			} catch (SQLGrammarException ex) {
 				m_logger.info("table '" + table + "' has created.");
 				EntityTransaction transaction = pgClient.getEntityManager().getTransaction();
 				if (transaction.isActive()) {
 					transaction.rollback();
 				}
-			} catch (Exception ex) {
-				m_logger.severe("unable to create table '" + table + "' because of: " + ex);
-			}
+				deleteDataIfExist(table);
+			} 
+			
+			createdTables.add(table);
 		}
 	}
 	

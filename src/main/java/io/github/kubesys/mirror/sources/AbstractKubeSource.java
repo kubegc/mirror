@@ -165,6 +165,20 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 			try {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_ADDED, 
 						new KubeDataModel(fullkindToMeta.get(fullKind), node));
+				
+				if (MirrorConstants.KUBE_APIGROUP.equals(KubeUtil.getGroup(node)) &&
+						MirrorConstants.KUBE_RESDEF.equals(KubeUtil.getKind(node))) {
+					
+					String fullkind = KubeUtil.getCRDFullkind(node);
+					Meta meta = MirrorUtil.toKubeMeta(node);
+					
+					//开始监听数据
+					fullkindToMeta.put(fullkind, meta);
+				    Thread thread = client.watchResources(fullkind, 
+				    		new KubeCollector(client, fullkind, dataTarget));
+				    fullkindToWatcher.put(fullkind, thread);
+				}
+				
 			} catch (Exception e) {
 				m_logger.warning("unknown error: " + e + ":" + node.toPrettyString());
 			}
@@ -180,11 +194,24 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 			}
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void doDeleted(JsonNode node) {
 			try {
 				dataTarget.handle(KubernetesConstants.JSON_TYPE_DELETED, 
 						new KubeDataModel(fullkindToMeta.get(fullKind), node));
+				
+				if (MirrorConstants.KUBE_APIGROUP.equals(KubeUtil.getGroup(node)) &&
+						MirrorConstants.KUBE_RESDEF.equals(KubeUtil.getKind(node))) {
+					
+					String fullkind = KubeUtil.getCRDFullkind(node);
+					
+					//开始停止监听
+					Thread thread = fullkindToWatcher.remove(fullkind);
+					thread.stop();
+					fullkindToMeta.remove(fullkind);
+				}
+				
 			} catch (Exception e) {
 				m_logger.warning("unknown error: " + e  + ":" + node.toPrettyString());
 			}
