@@ -39,8 +39,7 @@ public class MirrorUtil {
 	 * 否则抛出异常
 	 * https://kubernetes.io/docs/concepts/overview/working-with-objects/
 	 * 
-	 * @param name    名称
-	 * @param raw     原始数据
+	 * @param crd     原始数据
 	 * @return 得到KubeData的元数据meta
 	 */
 	public static Meta toKubeMeta(JsonNode crd) {
