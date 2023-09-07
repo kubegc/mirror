@@ -70,7 +70,7 @@ public class KubeDataModel implements DataModel {
 		/**
 		 * 对应metadata.name
 		 */
-		private String name;
+		private String fullkind;
 		
 		/**
 		 * 对应apiVersion中'/'前面的，如果没有则为""
@@ -90,15 +90,15 @@ public class KubeDataModel implements DataModel {
 		/**
 		 * @return 名称
 		 */
-		public String getName() {
-			return name;
+		public String getFullkind() {
+			return fullkind;
 		}
 
 		/**
-		 * @param name  名称
+		 * @param fullkind  名称
 		 */
-		public void setName(String name) {
-			this.name = name;
+		public void setFullkind(String fullkind) {
+			this.fullkind = fullkind;
 		}
 
 		/**

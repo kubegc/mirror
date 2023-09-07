@@ -220,10 +220,10 @@ class KubeUtilTest {
 		Meta meta = new Meta();
 		meta.setGroup("");
 		meta.setKind("Pod");
-		meta.setName("Pod");
+		meta.setFullkind("Pod");
 		meta.setPlural("pods");
-		assertEquals(meta.getName(), MirrorUtil.toKubeMeta("Pod", 
-				new ObjectMapper().readTree(meta_json)).getName());
+		assertEquals(meta.getFullkind(), MirrorUtil.toKubeMeta("Pod", 
+				new ObjectMapper().readTree(meta_json)).getFullkind());
 	}
 	
 	@Test

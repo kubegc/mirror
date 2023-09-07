@@ -9,7 +9,6 @@ import io.github.kubesys.mirror.cores.DataTarget;
 import io.github.kubesys.mirror.datas.KubeDataModel;
 import io.github.kubesys.mirror.sources.AbstractKubeSource;
 import io.github.kubesys.mirror.sources.KubeSourceExtractor;
-import io.github.kubesys.mirror.sources.KubeSourceListener;
 import io.github.kubesys.mirror.targets.PostgresTarget;
 import io.github.kubesys.mirror.targets.RabbitMQTarget;
 import io.github.kubesys.mirror.utils.MirrorUtil;
@@ -37,16 +36,17 @@ public class MirrorServer {
 		
 		AbstractKubeSource extrator = new KubeSourceExtractor(dbTarget);
 		extrator.startCollect();
-		
-		AbstractKubeSource listener = new KubeSourceListener(dbTarget);
-		listener.startCollect();
+//		
 		
 		// 调试的时候用
 //		debug(extrator);
 	}
 
 	static void debug(AbstractKubeSource source) throws Exception {
-		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
-		source.startCollect("Pod", MirrorUtil.toKubeMeta("Pod", json));
+//		JsonNode json = source.getKubeClient().getKindDesc().get("Pod");
+//		source.startCollect("Pod", MirrorUtil.toKubeMeta("Pod", json));
+		System.out.println(source.getKubeClient().getKindDesc());
+		JsonNode json = source.getKubeClient().getKindDesc().get("apiextensions.k8s.io.CustomResourceDefinition");
+		source.startCollect("apiextensions.k8s.io.CustomResourceDefinition", MirrorUtil.toKubeMeta("apiextensions.k8s.io.CustomResourceDefinition", json));
 	}
 }

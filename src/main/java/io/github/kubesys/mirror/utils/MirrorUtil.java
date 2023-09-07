@@ -45,7 +45,7 @@ public class MirrorUtil {
 	 */
 	public static Meta toKubeMeta(JsonNode crd) {
 		Meta meta = new Meta();
-		meta.setName(KubeUtil.getCrdKind(crd));
+		meta.setFullkind(KubeUtil.getCRDFullkind(crd));
 		meta.setGroup(KubeUtil.getCrdGroup(crd));
 		meta.setKind(KubeUtil.getCrdKind(crd));
 		meta.setPlural(KubeUtil.getCrdPlural(crd));
@@ -57,18 +57,19 @@ public class MirrorUtil {
 	 * 否则抛出异常
 	 * https://kubernetes.io/docs/concepts/overview/working-with-objects/
 	 * 
-	 * @param name    名称
+	 * @param fullkind    名称
 	 * @param raw     原始数据
 	 * @return 得到KubeData的元数据meta
 	 */
-	public static Meta toKubeMeta(String name, JsonNode raw) {
+	public static Meta toKubeMeta(String fullkind, JsonNode raw) {
 		Meta meta = new Meta();
-		meta.setName(name);
+		meta.setFullkind(fullkind);
 		String apiVersion = raw.get(KubernetesConstants.KUBE_APIVERSION).asText();
 		int idx = apiVersion.indexOf(KubernetesConstants.KUBE_APIVERSION_SPLIT);
 		meta.setGroup(idx == -1 ? KubernetesConstants.KUBE_DEFAULT_GROUP : apiVersion.substring(0, idx));
 		meta.setKind(raw.get(KubernetesConstants.KUBE_KIND).asText());
 		meta.setPlural(raw.get(KubernetesConstants.KUBE_PLURAL).asText());
+		// "verbs":["create","delete","deletecollection","get","list","patch","update","watch"]
 		return meta;
 	}
 	

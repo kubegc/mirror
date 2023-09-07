@@ -54,8 +54,8 @@ go to http://IP:30305, and the parameters are:
 
 |      Key            |   Value                       |  
 |---------------------|-------------------------------| 
-|     Username        |   guest                   | 
-|     Password        |   guest                     |
+|     Username        |   rabbitmq                   | 
+|     Password        |   onceas                      |
 
 Login and create a database 'kubestack'
 

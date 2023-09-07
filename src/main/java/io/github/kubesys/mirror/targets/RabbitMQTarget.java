@@ -62,7 +62,7 @@ public class RabbitMQTarget extends DataTarget<KubeDataModel> {
 	}
 	
 	private void forwarding(String type, KubeDataModel data) {
-		String queue = SQLUtil.table(data.getMeta().getPlural());
+		String queue = SQLUtil.table(data.getMeta().getFullkind().toLowerCase());
 		Channel channel = queueMgr.createQueueIfNeed(queue);
 		dataMgr.sendMsg(channel, queue, type, data);
 	}

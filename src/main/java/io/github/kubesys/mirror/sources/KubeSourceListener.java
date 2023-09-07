@@ -21,6 +21,7 @@ import io.github.kubesys.mirror.datas.KubeDataModel;
  * @since 2023/06/18
  *
  */
+@Deprecated
 public class KubeSourceListener extends AbstractKubeSource {
 
 	static JsonNode verbs;
@@ -101,20 +102,18 @@ public class KubeSourceListener extends AbstractKubeSource {
 			// ignore here
 		}
 
-		@SuppressWarnings("deprecation")
 		@Override
 		public void doDeleted(JsonNode node) {
 			String fullkind = KubeUtil.getFullkind(node);
 			fullkindToMeta.remove(fullkind);
 			ignoredFullkinds.remove(fullkind);
-			watchedFullkinds.remove(fullkind);
 			Thread thread = fullkindToWatcher.remove(fullkind);
 			thread.stop();
 		}
 
 		@Override
 		public void doAdded(JsonNode node) {
-			String fullkind = KubeUtil.getFullkind(node);
+			String fullkind = KubeUtil.getCRDFullkind(node);
 			JsonNode value = toValue(node);
 			try {
 				listener.doStartCollect(fullkind, value);

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -31,11 +32,7 @@ import io.github.kubesys.mirror.utils.MirrorUtil;
  */
 public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 
-	
-	/**
-	 * 已经监听的Kinds
-	 */
-	static final Set<String> watchedFullkinds = new HashSet<>();
+	protected final static Logger m_logger = Logger.getLogger(AbstractKubeSource.class.getName());
 	
 	/**
 	 * 忽略得Kinds
@@ -109,14 +106,31 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 		//开始监听数据
 		fullkindToMeta.put(fullkind, meta);
 	    Thread thread = kubeClient.watchResources(fullkind, 
-	    		new KubeCollector(kubeClient,fullkind, dataTarget));
+	    		new KubeCollector(kubeClient,fullkind, this, dataTarget));
 	    fullkindToWatcher.put(fullkind, thread);
+	    
+//	    KubernetesRuleBase ruleBase = kubeClient.getAnalyzer().getRegistry().getRuleBase();
+//	    ruleBase.addFullKind(meta.getKind(), fullkind);
+//		ruleBase.addApiPrefix(fullkind, uri);
+//		ruleBase.addKind(fullkind, meta.getKind());
+//		ruleBase.addGroup(fullkind, getGroupByUrl(uri));
+//		ruleBase.addName(fullkind, resource.get(
+//						KubernetesConstants.KUBE_METADATA_NAME).asText());
+//		ruleBase.addNamespaced(fullkind, resource.get(
+//						KubernetesConstants.KUBE_RESOURCES_NAMESPACED).asBoolean());
+//		ruleBase.addVersion(fullkind, apiVersion);
+//		ruleBase.addVerbs(fullkind, (ArrayNode) resource.get("verbs"));
+//		
+//		m_logger.info("register " + fullKind + ": <" + getGroupByUrl(uri) + "," 
+//				+ apiVersion + ","
+//				+ resource.get(KubernetesConstants.KUBE_RESOURCES_NAMESPACED).asText() + ","
+//				+ uri + ">");
 	}
 	
-	protected void doStartCollect(String fullkind, JsonNode value) throws Exception {
+	protected synchronized void doStartCollect(String fullkind, JsonNode value) throws Exception {
 		
 		// 已经监测过了，不再监测
-	    if (watchedFullkinds.contains(fullkind)) {
+	    if (fullkindToWatcher.containsKey(fullkind)) {
 	    	return;
 	    }
 	    
@@ -131,8 +145,7 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 		fullkindToMeta.put(fullkind, kubeData);
 	    
     	//开始监听数据
-		kubeClient.watchResources(fullkind, new KubeCollector(kubeClient, fullkind, dataTarget));
-	    watchedFullkinds.add(fullkind);
+		kubeClient.watchResources(fullkind, new KubeCollector(kubeClient, fullkind, this, dataTarget));
 	}
 
 	/**
@@ -142,6 +155,8 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 	 *
 	 */
 	static class KubeCollector extends KubernetesWatcher {
+		
+		protected final AbstractKubeSource source;
 		
 		/**
 		 * 全称=group+kind
@@ -153,9 +168,10 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 		 */
 		protected final DataTarget<KubeDataModel> dataTarget;
 		
-		protected KubeCollector(KubernetesClient client, String fullKind, DataTarget<KubeDataModel> target) {
+		protected KubeCollector(KubernetesClient client, String fullKind, AbstractKubeSource source, DataTarget<KubeDataModel> target) {
 			super(client);
 			this.fullKind = fullKind;
+			this.source = source;
 			this.dataTarget = target;
 		}
 
@@ -172,11 +188,7 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 					String fullkind = KubeUtil.getCRDFullkind(node);
 					Meta meta = MirrorUtil.toKubeMeta(node);
 					
-					//开始监听数据
-					fullkindToMeta.put(fullkind, meta);
-				    Thread thread = client.watchResources(fullkind, 
-				    		new KubeCollector(client, fullkind, dataTarget));
-				    fullkindToWatcher.put(fullkind, thread);
+					source.startCollect(fullkind, meta);
 				}
 				
 			} catch (Exception e) {
@@ -222,7 +234,8 @@ public abstract class AbstractKubeSource extends DataSource<KubeDataModel> {
 			m_logger.severe("connection is close, wait for reconnect " + fullKind);
 			try {
 				Thread.sleep(3000);
-				 client.watchResources(fullKind, new KubeCollector(client, fullKind, dataTarget));
+				 client.watchResources(fullKind, new KubeCollector(
+						 	client, fullKind, source, dataTarget));
 			} catch (Exception e) {
 				doClose();
 			}
